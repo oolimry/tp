@@ -56,5 +56,5 @@ ensure project deliverables are done on time and in the right format.
 [[homepage](https://onetw0three.github.io/)]
 [[github](http://github.com/onetw0three)]
 
-* Role: Developer
-* Responsibilities: UI
+* Role: Integration, Code Quality
+* Responsibilities: In charge of versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole. Looks after code quality, ensures adherence to coding standards,
