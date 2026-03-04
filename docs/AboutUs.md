@@ -45,8 +45,9 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](https://github.com/song-yiyang)]
 
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Role: Team Lead, Deliverables and deadlines
+* Responsibilities: Responsible for overall project coordination, 
+ensure project deliverables are done on time and in the right format.
 
 ### Tan Ze Jian
 
