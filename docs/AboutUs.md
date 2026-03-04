@@ -25,6 +25,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/oolimry.png" width="200px">
 
+[[github](https://github.com/oolimry/)]
+
 * Role: Slacker
 * Responsibilities: Keep Jinxia in Check
 
