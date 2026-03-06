@@ -31,7 +31,7 @@ public class EditCommandParser extends Parser<EditCommand> {
         return new InputPattern("edit",
 
                 // TODO find a way to retrieve the size of the list
-                new IntegerToken("taskno" ,1, 100)
+                new IntegerToken("taskno" , 1, 100)
 
         );
     }

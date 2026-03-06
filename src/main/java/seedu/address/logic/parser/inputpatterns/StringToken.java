@@ -4,15 +4,15 @@ package seedu.address.logic.parser.inputpatterns;
  * A Token that takes in any non-empty String as an input
  */
 public class StringToken extends Token {
-    public String tokenPreview;
+    private String tokenPreview;
 
     /**
-     * @param _tokenPreview the description of what this string should be
-     *                      e.g. <task_name>
+     * @param tokenPreview the description of what this string should be
+     *                      e.g. task_name
      */
-    public StringToken(String _id, String _tokenPreview) {
-        super(_id);
-        this.tokenPreview =_tokenPreview;
+    public StringToken(String id, String tokenPreview) {
+        super(id);
+        this.tokenPreview = tokenPreview;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package seedu.address.logic.parser.inputpatterns;
 
-import java.util.function.Supplier;
-
 /**
  * A Token that takes in any integer
  * The range of valid integers are given by the Suppliers minValueSupplier and maxValueSupplier
@@ -12,13 +10,13 @@ public class IntegerToken extends Token {
     private final int maxValue;
 
     /**
-     * @param _minValue the minimum possible integer in this field
-     * @param _maxValue the maximum possible integer in this field
+     * @param minValue the minimum possible integer in this field
+     * @param maxValue the maximum possible integer in this field
      */
-    public IntegerToken(String _id, int _minValue, int _maxValue) {
-        super(_id);
-        this.minValue = _minValue;
-        this.maxValue = _maxValue;
+    public IntegerToken(String id, int minValue, int maxValue) {
+        super(id);
+        this.minValue = minValue;
+        this.maxValue = maxValue;
     }
 
     @Override

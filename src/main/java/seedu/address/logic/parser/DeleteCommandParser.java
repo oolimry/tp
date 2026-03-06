@@ -7,9 +7,6 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.inputpatterns.InputPattern;
 import seedu.address.logic.parser.inputpatterns.IntegerToken;
-import seedu.address.logic.parser.inputpatterns.StringToken;
-
-import java.util.function.Supplier;
 
 /**
  * Parses input arguments and creates a new DeleteCommand object
@@ -21,7 +18,7 @@ public class DeleteCommandParser extends Parser<DeleteCommand> {
         return new InputPattern("delete",
 
                 // TODO find a way to retrieve the size of the list
-                new IntegerToken("taskno" ,1, 100)
+                new IntegerToken("taskno" , 1, 100)
 
         );
     }

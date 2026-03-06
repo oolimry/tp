@@ -7,11 +7,11 @@ public class ConstantToken extends Token {
     private final String constant;
 
     /**
-     * @param _constant the string the input must match this string exactly
+     * @param constant the string the input must match this string exactly
      */
-    public ConstantToken(String _id, String _constant) {
-        super(_id);
-        this.constant = _constant;
+    public ConstantToken(String id, String constant) {
+        super(id);
+        this.constant = constant;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ConstantToken extends Token {
             return false;
         }
 
-        if(segment.isEmpty()) {
+        if (segment.isEmpty()) {
             return true;
         }
 

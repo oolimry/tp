@@ -1,19 +1,29 @@
 package seedu.address.logic.parser.inputpatterns;
 
-import seedu.address.logic.parser.exceptions.ParseException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+
+
 
 /**
  * A series of tokens that represent a valid command structure
  */
 public class InputPattern extends ArrayList<Token> {
+    /**
+     * The label of this input pattern,
+     * typically refers to the command this input pattern handles
+     */
     final String label;
 
-    public InputPattern(String _label, Token... tokens) {
+    /**
+     * @param label the label of the InputPattern
+     * @param tokens a List of tokens that make up this InputPattern
+     */
+    public InputPattern(String label, Token... tokens) {
         addAll(List.of(tokens));
-        this.label = _label;
+        this.label = label;
     }
 
     /**
@@ -30,13 +40,11 @@ public class InputPattern extends ArrayList<Token> {
     }
 
     /**
-     * @param args the entire string after the first command word)
-     *
-     * This function will attempt to break args into segments and assign them
-     * to the corresponding tokens
-     *
-     * if successful, each token have their assignedSegment set
-     * if unsuccessful, it will throw a ParseException
+     * @param args the entire string after the first command word
+     *             This function will attempt to break args into segments and assign them
+     *             to the corresponding token
+     *             if successful, each token have their assignedSegment set
+     *             if unsuccessful, it will throw a ParseException
      *
      * @throws ParseException
      */
@@ -90,7 +98,7 @@ public class InputPattern extends ArrayList<Token> {
                 if (i != this.size() - 1) {
                     // case 1: there is a next token
                     // find the position and add everything in between
-                    Token nextToken = this.get(i+1);
+                    Token nextToken = this.get(i + 1);
 
                     while (segmentPointer < rawSegments.size()) {
                         String nextSegment = rawSegments.get(segmentPointer);

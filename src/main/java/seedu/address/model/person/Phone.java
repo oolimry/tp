@@ -1,8 +1,5 @@
 package seedu.address.model.person;
 
-import java.util.Random;
-import java.util.random.RandomGenerator;
-
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 

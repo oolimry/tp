@@ -16,24 +16,24 @@ public class Prediction {
     private String prediction;
     private int spacePaddingLength;
 
-    private Prediction (boolean _matchesCompletely, boolean _doesNotMatch,
-                       String _prediction, int _spacePaddingLength) {
-        this.matchesCompletely = _matchesCompletely;
-        this.doesNotMatch = _doesNotMatch;
-        this.prediction = _prediction;
-        this.spacePaddingLength = _spacePaddingLength;
+    private Prediction(boolean matchesCompletely, boolean doesNotMatch,
+                       String prediction, int spacePaddingLength) {
+        this.matchesCompletely = matchesCompletely;
+        this.doesNotMatch = doesNotMatch;
+        this.prediction = prediction;
+        this.spacePaddingLength = spacePaddingLength;
     }
 
-    public static Prediction newMatchCompletelyPrediction (int _spacePaddingLength) {
-        return new Prediction(true, false, MATCHES_COMPLETELY, _spacePaddingLength);
+    public static Prediction newMatchCompletelyPrediction(int spacePaddingLength) {
+        return new Prediction(true, false, MATCHES_COMPLETELY, spacePaddingLength);
     }
 
-    public static Prediction newDoesNotMatchPrediction (int _spacePaddingLength) {
-        return new Prediction(false, true, NO_MATCHING_PREDICTION, _spacePaddingLength);
+    public static Prediction newDoesNotMatchPrediction(int spacePaddingLength) {
+        return new Prediction(false, true, NO_MATCHING_PREDICTION, spacePaddingLength);
     }
 
-    public static Prediction newPrediction (String _prediction, int _spacePaddingLength) {
-        return new Prediction(false, false, _prediction, _spacePaddingLength);
+    public static Prediction newPrediction(String prediction, int spacePaddingLength) {
+        return new Prediction(false, false, prediction, spacePaddingLength);
     }
 
     public String getFormattedPrediction() {

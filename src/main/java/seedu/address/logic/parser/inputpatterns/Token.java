@@ -32,13 +32,13 @@ public abstract class Token {
     /**
      * @return the string that should appear as a suggestion
      */
-    abstract public String getPreview();
+    public abstract String getPreview();
 
     /**
      * @param segment a string entered for a token
      * @return whether the segment is a valid string matching the token's requirements
      */
-    abstract public boolean matches(String segment);
+    public abstract boolean matches(String segment);
 
 
     /**
