@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# Scambook Developer Guide
+# ScamBook Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
