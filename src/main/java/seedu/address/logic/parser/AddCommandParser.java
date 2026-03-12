@@ -56,6 +56,9 @@ public class AddCommandParser extends Parser<AddCommand> {
 
         Token nameToken = inputPattern.getTokenWithId("name");
         String nameString = nameToken.getAssignedSegment();
+        if (!Name.isValidName(nameString)) {
+            throw new ParseException("Name inputted: " + nameString + "\n" + Name.MESSAGE_CONSTRAINTS);
+        }
         Name name = new Name(nameString);
 
         Phone phone = null;
