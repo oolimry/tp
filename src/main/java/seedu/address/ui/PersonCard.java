@@ -64,14 +64,12 @@ public class PersonCard extends UiPart<Region> {
             email.setVisible(false);
         }
 
-        List<Tag> tagList = person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .toList();
+        List<String> tagList = person.getPrintableTags();
 
         if (!tagList.isEmpty()) {
             tags.setVisible(true);
             tagList.forEach(tag -> {
-                Label tagLabel = new Label(tag.toString());
+                Label tagLabel = new Label(tag);
                 tags.getChildren().add(tagLabel);
             });
         }

@@ -14,6 +14,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.TagList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -58,9 +59,9 @@ class JsonAdaptedPerson {
         } else {
             email = null;
         }
-        tags.addAll(source.getTags().stream()
+        tags.addAll(source.getPrintableTags().stream()
                 .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     /**
@@ -101,7 +102,7 @@ class JsonAdaptedPerson {
         }
 
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
+        final TagList modelTags = new TagList(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelTags);
     }
 
