@@ -161,10 +161,7 @@ public class SortCommand extends Command {
     }
 
     private String getTagValue(Person person, String tagName) {
-        Optional<Tag> matchingTag = person.getTags().stream()
-                .filter(tag -> tag.tagName.equalsIgnoreCase(tagName))
-                .findFirst();
-        return matchingTag.map(tag -> tag.tagValue).orElse(null);
+        return person.getTags().filterTagCaseInsensitive(tagName).orElse(null);
     }
 
     private Long parseLongOrNull(String value) {

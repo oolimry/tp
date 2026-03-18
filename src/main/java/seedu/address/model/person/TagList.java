@@ -1,6 +1,8 @@
 package seedu.address.model.person;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import seedu.address.model.tag.Tag;
@@ -60,6 +62,13 @@ public class TagList {
 
     public boolean containsTagName(String tagName) {
         return this.tags.containsKey(tagName);
+    }
+
+    public Optional<String> filterTagCaseInsensitive(String tagName) {
+        return this.tags.entrySet().stream()
+                .filter(tag -> tag.getKey().equalsIgnoreCase(tagName))
+                .findFirst()
+                .map(Map.Entry::getValue);
     }
 
     /**
