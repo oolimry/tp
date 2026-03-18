@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -151,5 +152,18 @@ public class TagCommandTest {
 
         // different deleteTags -> returns false
         assertFalse(tagCommand1.equals(new TagCommand(INDEX_FIRST_PERSON, addTags, editTags, List.of())));
+    }
+
+    @Test
+    public void test_toString() {
+        List<Tag> addTags = List.of(new Tag("job:banker"));
+        List<Tag> editTags = List.of(new Tag("school:NTU"));
+        List<Tag> deleteTags = List.of(new Tag("salary:dummy"));
+
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, addTags, editTags, deleteTags);
+        assertEquals(TagCommand.class.getCanonicalName()
+                        + "{index=" + INDEX_FIRST_PERSON
+                        + ", add tags=[job: banker], edit tags=[school: NTU], delete tags=[salary: dummy]}",
+                        tagCommand.toString());
     }
 }
