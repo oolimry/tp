@@ -14,6 +14,11 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
+    /** Retrieves the most recently used predicate to filter the list. */
+    Predicate<Person> getMostRecentPredicate();
+
+    public void showAllPersons();
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */

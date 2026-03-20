@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PARAM_ID_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PARAM_ID_NAME;
 import static seedu.address.logic.parser.CliSyntax.PARAM_ID_PHONE;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,7 +74,10 @@ public class EditCommand extends Command {
         }
 
         model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
+        if (!model.getMostRecentPredicate().test(editedPerson)) {
+            model.showAllPersons();
+        }
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
