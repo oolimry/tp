@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PARAM_ID_TAG_ADD;
 import static seedu.address.logic.parser.CliSyntax.PARAM_ID_TAG_DELETE;
 import static seedu.address.logic.parser.CliSyntax.PARAM_ID_TAG_EDIT;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 
@@ -97,7 +96,10 @@ public class TagCommand extends Command {
         }
 
         model.setPerson(person, updatedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
+        if (!model.getMostRecentPredicate().test(updatedPerson)) {
+            model.showAllPersons();
+        }
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

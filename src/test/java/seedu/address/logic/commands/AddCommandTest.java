@@ -44,7 +44,6 @@ public class AddCommandTest {
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
-
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
@@ -89,6 +88,16 @@ public class AddCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
+        @Override
+        public Predicate<Person> getMostRecentPredicate() {
+            return PREDICATE_SHOW_ALL_PERSONS;
+        }
+
+        @Override
+        public void showAllPersons() {
+            throw new AssertionError("This method should not be called.");
+        }
+
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
