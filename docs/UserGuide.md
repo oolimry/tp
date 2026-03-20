@@ -14,15 +14,11 @@ ScamBook User Guide
 
 ### What is ScamBook?
 
-ScamBook is a **desktop contact management app** optimised for use via
-a Command Line Interface (CLI) while still having the benefits of
-a Graphical User Interface (GUI).
+ScamBook is a **desktop contact management app** optimised for use via a Command Line Interface (CLI) while still having the benefits of a Graphical User Interface (GUI).
 
 ### Who is ScamBook for?
 
-ScamBook is designed for **Singapore-based investment and financial scam
-callers** managing a high volume of victim contacts daily. If you are
-a scammer who:
+ScamBook is designed for **Singapore-based investment and financial scam callers** managing a high volume of victim contacts daily. If you are a scammer who:
 * is **tech-savvy** and prefer typing to clicking, and comfortable with
 a command line interfaces (CLI);
 * operates as a **solo caller** and need a private, single-user system to
@@ -60,8 +56,7 @@ proposition, etc. -->
 
 <!-- Quickstart: Overview of UI -->
 ### Overview
-A GUI similar to the below should appear in a few seconds. Note how the
-app contains some sample data.<br>
+A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
 
 ![Ui](images/Ui.png) <!-- TODO: annotated screenshot of the UI -->
 
@@ -72,9 +67,7 @@ app contains some sample data.<br>
 
    * `add John Doe --phone 98765432 --email johnd@example.com --tag address:John street, block 123, #01-01` : Adds a contact named `John Doe` to ScamBook.
 
-   * `tag 2 --add income:100000 --edit address:Tom street` : Adds the tag
-     `income:100000` to the 2nd contact shown in the current list, and
-     edits the `address` tag of that contact to be `Tom street`.
+   * `tag 2 --add income:100000 --edit address:Tom street` : Adds the tag `income:100000` to the 2nd contact shown in the current list, and edits the `address` tag of that contact to be `Tom street`.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -86,9 +79,7 @@ app contains some sample data.<br>
 
 ### Basic commands
 
-Refer to the [Features](#features) section below for details of each
-command, or the [Commands Summary](#commands-summary) section for a quick
-summary of all commands and their formats.
+Refer to the [Features](#features) section below for details of each command, or the [Commands Summary](#commands-summary) section for a quick summary of all commands and their formats.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -112,12 +103,9 @@ summary of all commands and their formats.
   e.g. if the command specifies `NAME [--phone PHONE]`, `--phone 88091246 John` is not acceptable.
 
 * Optional parameters can be in any order.<br>
-  e.g. if the command specifies `[--phone PHONE] [--email EMAIL]`,
-  `--email john@example.com --phone 91842739` is also acceptable.
+  e.g. if the command specifies `[--phone PHONE] [--email EMAIL]`, `--email john@example.com --phone 91842739` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such
-  as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command input is `help 123`, it will be interpreted as `help`.
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br> e.g. if the command input is `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
@@ -288,15 +276,14 @@ How do I transfer my data to another Computer?<br>
 Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
 -->
 
-<!-- Tutorial: Power user features, shortcuts, efficient usage (only if
-features implemented) -->
+<!-- Tutorial: Power user features, shortcuts, efficient usage (only if features implemented) -->
 
 ## FAQ
 **Q**: I have a question that is not answered here. Where can I ask it?<br>
 **A**: You can ask your question by creating a new issue in the [ScamBook
 repository](https://github.com/AY2526S2-CS2103T-T16-1/tp/issues).
 
-<!-- Known issues, e.g. bugs, limitations, etc. Only add if affects a normal user experience. Should be empty.
+<!-- Known issues, e.g. bugs, limitations, etc. Only add if affects a normal user experience. Ideally this section does not exist.
 
 --------------------------------------------------------------------------------------------------------------------
 
