@@ -85,19 +85,23 @@ Refer to the [Features](#features) section below for details of each command, or
 
 ## Features
 
+Upon successful execution of a command, a corresponding success message will be displayed.
+
+The `filter` command will only display a subset of filtered profiles in ScamBook. In general, after successful execution of any command, if the modified profile(s) still fulfill the most recent filter applied, the displayed list will remain as the filtered list. Otherwise, the displayed list will revert to show all profiles.
+
 <!-- Disclaimer for command format, applicable to all commands -->
 <box type="info" seamless>
 
 **Notes about the command format:**<br>
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
+* Words in `UPPER_CASE` are the parameters to be supplied by the user. They can contain spaces and special characters (except `index`, which expects a single positive integer). <br>
   e.g. in `add NAME`, `NAME` is a parameter which can be used as `add John Doe`.
 
 * Items in `[square brackets]` are optional.<br>
   e.g `NAME [--phone PHONE]` can be used as `John Doe --phone 88463679` or as `John Doe`.
 
 * Items with `…`​ after them can be used multiple times (including zero times).<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[--tag NAME:VALUE]…​` can be used as ` ` (i.e. 0 times), `--tag school:NUS`, `--tag school:NUS --tag salary:10000` etc.
 
 * Mandatory parameters must come before optional parameters.<br>
   e.g. if the command specifies `NAME [--phone PHONE]`, `--phone 88091246 John` is not acceptable.
@@ -161,7 +165,6 @@ Adds a person to the address book.
 Format: `add NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`
 
 <box type="tip" seamless>
-
 **Tip:** A person can have any number of tags (including 0)
 
 </box>
@@ -208,8 +211,51 @@ Examples:
 
 ### Tagging a person : `tag`
 
-<!-- TODO: tag description here-->
+<!-- TODO: add visuals -->
 
+Modifies (add, edit or delete) the tags of an existing person in the ScamBook.
+
+Format: `tag INDEX [--add NAME:VALUE]... [--edit NAME:VALUE]... [--delete TAGNAME]...​`
+
+<box type="warning" seamless>
+**Caution:** `NAME`, `VALUE`, `TAGNAME` must NOT contain colons (`:`). Otherwise, an error will be displayed.
+</box>
+
+* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* At least one of the optional fields must be provided, if not, nothing will happen upon execution (and success message will be displayed).
+* Optional fields beginning with `--add` represents tags to be added to the person. The tag name must NOT already exist.
+* Optional fields beginning with `--edit` represents tags to be modified of the person. The tag with the corresponding name must already exist.
+* Optional fields beginning with `--delete` represents tags to be deleted. The tag with the corresponding name must already exist.
+
+<box type="warning" seamless>
+If the same tag name appears across multiple optional fields, behavior is undefined.
+</box>
+
+Examples:
+* `tag 10 --add school:National University of Sinapore` Adds a tag with name `school` and value `National University of Sinapore` to the tenth person. Note the support of spaces in the tag value.
+* `tag 2 --delete age --edit monthly income:10000` Deletes an existing tag with name `age` and edits an existing tag with name `monthly income` to contain `10000` from the second person. Note the support of spaces in tag name and the flexible ordering of parameters. 
+* `tag 1 --add school:NUS --edit salary:10000 --delete age` Adds a tag with name `school` and value `NUS`, edits an existing tag with name `salary` to contain `10000` and deletes an existing tag with name `age` from the first person.
+
+
+### Marking the status of a person: `clearstatus`, `target`, `scammed`, or `ignore`
+
+Sets the status of a specific person. We currently support 4 common statuses, each represented by its corresponding command name.
+
+In this section, `status_command` can be replaced by either one of `clearstatus`, `target`, `scammed`, or `ignore`.
+
+Format: `status_command INDEX`
+
+* Sets the status of the person at the specified `INDEX`.
+* The new status overwrites any previously existing status, i.e. each person can have exactly 1 status at any time (no status is also a status).
+* Setting a particular status for a person that already has the corresponding status will do nothing (and success message will be displayed).
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `scammed 2` marks the second person to have status "scammed".
+* `ignore 4` marks the fourth person to be ignored (e.g. if you think the fourth person is unlikely to be a victim and you should not pursue this further).
+* `target 3` marks the third person as a potential target.
+* `clearstatus 1` clears the first person of any indicated status.
 
 ### Deleting a person : `delete`
 
@@ -255,10 +301,10 @@ AddressBook data are saved in the hard disk automatically after any command that
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
-
 **Caution:**
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+
 </box>
 
 <!-- Upcoming features -->
