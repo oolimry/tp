@@ -93,7 +93,7 @@ Refer to the [Features](#features) section below for details of each command, or
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add NAME`, `NAME` is a parameter which can be used as `add John Doe`.
 
-* Items in square brackets are optional.<br>
+* Items in `[square brackets]` are optional.<br>
   e.g `NAME [--phone PHONE]` can be used as `John Doe --phone 88463679` or as `John Doe`.
 
 * Items with `…`​ after them can be used multiple times (including zero times).<br>
@@ -158,16 +158,17 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`
 
 <box type="tip" seamless>
 
 **Tip:** A person can have any number of tags (including 0)
+
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add John Doe --phone 98765432 --email johnd@example.com --tag address:John street, block 123, #01-01`
+* `add Besty Croew --tag income:$100000 --tag bank:OCBC`
 
 
 ### Listing all persons : `list`
