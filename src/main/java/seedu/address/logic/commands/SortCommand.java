@@ -129,18 +129,20 @@ public class SortCommand extends Command {
 
         switch (sortSpec.targetType) {
         case NAME:
-            coreComparator = buildStringComparator(person -> person.getName().fullName, sortSpec.mode);
+            coreComparator = buildStringComparator(person -> person.getName().fullName, sortSpec.mode,
+                    sortSpec.order);
             break;
         case PHONE:
             coreComparator = buildStringComparator(person -> person.hasPhone() ? person.getPhone().value : null,
-                    sortSpec.mode);
+                    sortSpec.mode, sortSpec.order);
             break;
         case EMAIL:
             coreComparator = buildStringComparator(person -> person.hasEmail() ? person.getEmail().value : null,
-                    sortSpec.mode);
+                    sortSpec.mode, sortSpec.order);
             break;
         case TAG:
-            coreComparator = buildStringComparator(person -> getTagValue(person, sortSpec.tagName), sortSpec.mode);
+            coreComparator = buildStringComparator(person -> getTagValue(person, sortSpec.tagName), sortSpec.mode,
+                    sortSpec.order);
             break;
         default:
             throw new IllegalStateException("Unsupported sort target: " + sortSpec.targetType);
@@ -148,17 +150,20 @@ public class SortCommand extends Command {
 
         Comparator<Person> withTieBreaker = coreComparator.thenComparing(
                 person -> person.getName().fullName,
-                String.CASE_INSENSITIVE_ORDER
+                sortSpec.order == SortOrder.DESC
+                        ? String.CASE_INSENSITIVE_ORDER.reversed()
+                        : String.CASE_INSENSITIVE_ORDER
         );
 
-        return sortSpec.order == SortOrder.DESC ? withTieBreaker.reversed() : withTieBreaker;
+        return withTieBreaker;
     }
 
-    private Comparator<Person> buildStringComparator(ValueExtractor extractor, SortMode mode) {
+    private Comparator<Person> buildStringComparator(ValueExtractor extractor, SortMode mode, SortOrder order) {
         return (left, right) -> {
             String leftValue = extractor.extract(left);
             String rightValue = extractor.extract(right);
 
+            // Nulls always go last, regardless of sort order
             if (leftValue == null && rightValue == null) {
                 return 0;
             }
@@ -169,22 +174,27 @@ public class SortCommand extends Command {
                 return -1;
             }
 
+            int result;
             if (mode == SortMode.NUMBER) {
                 Long leftNumber = parseLongOrNull(leftValue);
                 Long rightNumber = parseLongOrNull(rightValue);
 
                 if (leftNumber != null && rightNumber != null) {
-                    return Long.compare(leftNumber, rightNumber);
+                    result = Long.compare(leftNumber, rightNumber);
+                    return order == SortOrder.DESC ? -result : result;
                 }
                 if (leftNumber != null) {
-                    return -1;
+                    result = -1;
+                    return order == SortOrder.DESC ? -result : result;
                 }
                 if (rightNumber != null) {
-                    return 1;
+                    result = 1;
+                    return order == SortOrder.DESC ? -result : result;
                 }
             }
 
-            return leftValue.compareToIgnoreCase(rightValue);
+            result = leftValue.compareToIgnoreCase(rightValue);
+            return order == SortOrder.DESC ? -result : result;
         };
     }
 
