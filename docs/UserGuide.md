@@ -183,7 +183,22 @@ Format: `list`
 
 ### Filtering the list of persons : `filter`
 
-<!-- TODO: filter description here-->
+Filters the list of persons in the address book to show only those that match the specified parameters.
+
+If multiple parameters of the same type are specified, only persons that match all of the specified parameters will be shown. If multiple parameters of different types are specified, persons that match at least one of the specified parameters will be shown.
+
+Format: `filter [--name NAME]... [--phone PHONE]...`
+
+- `filter --name John --phone 98765432`
+  Shows all persons whose name contains `John` and phone number is `98765432`.
+- `filter --name John --name Jane`
+  Shows all persons whose name contains `John` or `Jane`.
+- `filter --name John --name Jane --phone 98765432`
+  Shows all persons whose name contains `John` or `Jane`, and phone number is `98765432`.
+
+<box type="tip" seamless>
+The filter command filters the displayed list of persons, and other commands will refer to the index of the filtered list.
+</box>
 
 
 ### Sorting the list of persons : `sort`
@@ -278,7 +293,13 @@ Format: `clear`
 
 ### Deleting the app and all data: `nuke`
 
-<!-- TODO: nuke description here-->
+Deletes the app and all locally stored data.
+
+Format: `nuke`
+
+<box type="warning" seamless>
+**Caution:** This action is irreversible. Use with caution.
+</box>
 
 
 ### Exiting the program : `exit`
