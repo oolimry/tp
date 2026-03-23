@@ -293,7 +293,13 @@ Format: `clear`
 
 ### Deleting the app and all data: `nuke`
 
-<!-- TODO: nuke description here-->
+Deletes the app and all locally stored data.
+
+Format: `nuke`
+
+<box type="warning" seamless>
+**Caution:** This action is irreversible. Use with caution.
+</box>
 
 
 ### Exiting the program : `exit`
