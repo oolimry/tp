@@ -127,6 +127,18 @@ public class ModelManagerTest {
         assertEquals(ALICE, modelManager.getAddressBook().getPersonList().get(0));
         assertEquals(BENSON, modelManager.getAddressBook().getPersonList().get(1));
     }
+  
+    public void setSelectedPerson_validPerson_setsSelectedPerson() {
+        modelManager.addPerson(ALICE);
+        modelManager.setSelectedPerson(ALICE);
+        assertEquals(ALICE, modelManager.getSelectedPerson().getValue());
+    }
+
+    @Test
+    public void setSelectedPerson_nullPerson_setsSelectedPersonToNull() {
+        modelManager.setSelectedPerson(null);
+        assertEquals(null, modelManager.getSelectedPerson().getValue());
+    }
 
     @Test
     public void equals() {

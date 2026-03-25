@@ -8,6 +8,8 @@ import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -26,6 +28,8 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final SortedList<Person> sortedPersons;
     private Predicate<Person> currentPredicate;
+
+    private final ObjectProperty<Person> selectedPerson = new SimpleObjectProperty<>();
 
     private Predicate<Person> mostRecentPredicate = PREDICATE_SHOW_ALL_PERSONS;
 
@@ -162,6 +166,17 @@ public class ModelManager implements Model {
     public void sortMasterPersonList(Comparator<Person> comparator) {
         requireNonNull(comparator);
         addressBook.sortPersons(comparator);
+    }
+
+    //=========== Selected Person Accessors =============================================================
+
+    public ObjectProperty<Person> getSelectedPerson() {
+        return selectedPerson;
+    }
+
+    @Override
+    public void setSelectedPerson(Person person) {
+        selectedPerson.set(person);
     }
 
     @Override

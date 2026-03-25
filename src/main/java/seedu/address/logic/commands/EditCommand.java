@@ -74,6 +74,7 @@ public class EditCommand extends Command {
         }
 
         model.setPerson(personToEdit, editedPerson);
+        model.setSelectedPerson(editedPerson);
 
         if (!model.getMostRecentPredicate().test(editedPerson)) {
             model.showAllPersons();

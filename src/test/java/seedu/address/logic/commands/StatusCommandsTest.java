@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
@@ -94,6 +96,27 @@ public class StatusCommandsTest {
         Model model = newModelWithPerson(ALICE_TARGET);
         ClearStatusCommand clearStatusCommand = new ClearStatusCommand(INDEX_SECOND_PERSON);
         assertCommandFailure(clearStatusCommand, model, Messages.MESSAGE_OUT_OF_BOUNDS_PERSON_INDEX);
+    }
+
+    @Test
+    public void execute_validIndex_setsSelectedPerson() throws Exception {
+        Model model = newModelWithPerson(ALICE_TARGET);
+        ClearStatusCommand clearStatusCommand = new ClearStatusCommand(INDEX_FIRST_PERSON);
+
+        clearStatusCommand.execute(model);
+
+        assertEquals(ALICE_NONE, model.getSelectedPerson().getValue());
+    }
+
+    @Test
+    public void execute_outOfBoundsIndex_doesNotSetSelectedPerson() {
+        Model model = newModelWithPerson(ALICE_TARGET);
+        model.setSelectedPerson(ALICE_TARGET);
+        ClearStatusCommand clearStatusCommand = new ClearStatusCommand(INDEX_SECOND_PERSON);
+
+        assertThrows(CommandException.class,
+                Messages.MESSAGE_OUT_OF_BOUNDS_PERSON_INDEX, () -> clearStatusCommand.execute(model));
+        assertEquals(ALICE_TARGET, model.getSelectedPerson().getValue()); // unchanged
     }
 
     @Test
