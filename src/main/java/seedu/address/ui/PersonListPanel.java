@@ -35,10 +35,7 @@ public class PersonListPanel extends UiPart<Region> {
 
         // Scrolls to and selects the person whenever there is an edit to that person
         selectedPerson.addListener((obs, oldPerson, newPerson) -> {
-            if (newPerson != null) {
-                logger.info("Scrolling to: " + newPerson);
-                scrollToAndSelect(newPerson);
-            }
+            scrollToAndSelect(newPerson);
         });
 
     }
@@ -52,6 +49,11 @@ public class PersonListPanel extends UiPart<Region> {
      */
     public void scrollToAndSelect(Person person) {
         Platform.runLater(() -> {
+            if (person == null) {
+                personListView.getSelectionModel().clearSelection();
+                return;
+            }
+            logger.info("Scrolling to: " + person.getName());
             personListView.scrollTo(person);
             personListView.getSelectionModel().select(person);
         });
