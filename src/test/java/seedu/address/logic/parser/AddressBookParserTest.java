@@ -25,6 +25,7 @@ import seedu.address.logic.commands.IgnoreStatusCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.NukeCommand;
 import seedu.address.logic.commands.ScammedStatusCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.TargetStatusCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -98,6 +99,18 @@ public class AddressBookParserTest {
     public void parseCommand_nuke() throws Exception {
         assertTrue(parser.parseCommand(NukeCommand.COMMAND_WORD) instanceof NukeCommand);
         assertTrue(parser.parseCommand(NukeCommand.COMMAND_WORD + " now") instanceof NukeCommand);
+    }
+
+    @Test
+    public void parseCommand_sort() throws Exception {
+        SortCommand command = (SortCommand) parser.parseCommand("sort NAME --ASC --alpha");
+        SortCommand.SortSpec expectedSpec = new SortCommand.SortSpec(
+                SortCommand.SortTargetType.NAME,
+                null,
+                SortCommand.SortOrder.ASC,
+                SortCommand.SortMode.ALPHA
+        );
+        assertEquals(new SortCommand(expectedSpec), command);
     }
 
     @Test

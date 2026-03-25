@@ -21,6 +21,7 @@ import seedu.address.logic.commands.IgnoreStatusCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.NukeCommand;
 import seedu.address.logic.commands.ScammedStatusCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.TargetStatusCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -67,6 +68,7 @@ public class AddressBookParser {
         case TargetStatusCommand.COMMAND_WORD -> new TargetStatusCommandParser().parse(arguments);
         case ScammedStatusCommand.COMMAND_WORD -> new ScammedStatusCommandParser().parse(arguments);
         case IgnoreStatusCommand.COMMAND_WORD -> new IgnoreStatusCommandParser().parse(arguments);
+        case SortCommand.COMMAND_WORD -> new SortCommandParser().parse(arguments);
         case ClearCommand.COMMAND_WORD -> new ClearCommand();
         case ListCommand.COMMAND_WORD -> new ListCommand();
         case ExitCommand.COMMAND_WORD -> new ExitCommand();

@@ -203,7 +203,19 @@ The filter command filters the displayed list of persons, and other commands wil
 
 ### Sorting the list of persons : `sort`
 
-<!-- TODO: sort description here-->
+Sorts the current list of persons by a specified field.
+
+Format: `sort [FIELD] [--asc|--desc] [--number|--alpha]`
+
+* `FIELD` can be `name`, `phone`, `email`, or a tag name (e.g., `income`). Defaults to `name` if omitted.
+* `--asc` sorts in ascending order (default), `--desc` sorts in descending order.
+* `--number` sorts numerically where possible (default), `--alpha` sorts alphabetically.
+* Entries with missing values for the specified field are placed at the end.
+
+Examples:
+* `sort` Sorts by name in ascending order.
+* `sort phone --desc --number` Sorts by phone number in descending numeric order.
+* `sort income --alpha` Sorts by the `income` tag alphabetically.
 
 
 ### Editing a person : `edit`
@@ -372,6 +384,7 @@ Command   | Parameters
 **`tag`**    | `INDEX [--add NAME:VALUE]... [--edit NAME:VALUE]... [--delete TAGNAME]...`<br> e.g., `tag 1 --add school:NUS --edit salary:10000 --delete age`
 **`edit`**   | `INDEX [--name NAME] [--phone PHONE] [--email EMAIL]`<br> e.g., `edit 1 --name Jane Doe --phone 91234567 --email newemail@example.com`
 **`filter`** | `[--name NAME]... [--phone PHONE]`<br> e.g., `filter --name John --phone 98765432`
+**`sort`**   | `[FIELD] [--asc\|--desc] [--number\|--alpha]`<br> e.g., `sort phone --desc --number`
 **`list`**   | List all contacts
 **`delete`** | `INDEX`<br> e.g., `delete 1`
 **`clear`**  | Delete all contacts

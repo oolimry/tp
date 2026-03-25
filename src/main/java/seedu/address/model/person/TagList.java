@@ -1,6 +1,8 @@
 package seedu.address.model.person;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import seedu.address.model.tag.Tag;
@@ -60,6 +62,19 @@ public class TagList {
 
     public boolean containsTagName(String tagName) {
         return this.tags.containsKey(tagName);
+    }
+
+    /**
+     * Returns an Optional containing the value of the tag with the given name, ignoring case, if it exists.
+     *
+     * @param tagName The name of the tag to search for, case-insensitive.
+     * @return An Optional containing the value of the tag if found, or an empty Optional if not found.
+     */
+    public Optional<String> filterTagCaseInsensitive(String tagName) {
+        return this.tags.entrySet().stream()
+                .filter(tag -> tag.getKey().equalsIgnoreCase(tagName))
+                .findFirst()
+                .map(Map.Entry::getValue);
     }
 
     /**
