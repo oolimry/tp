@@ -56,6 +56,8 @@ public class AddCommand extends Command {
         if (!model.getMostRecentPredicate().test(toAdd)) {
             model.showAllPersons();
         }
+        model.setSelectedPerson(toAdd);
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 

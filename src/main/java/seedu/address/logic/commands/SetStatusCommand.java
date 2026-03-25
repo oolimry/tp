@@ -48,6 +48,7 @@ public class SetStatusCommand extends Command {
                 person.getTags(),
                 targetStatus);
         model.setPerson(person, updatedPerson);
+        model.setSelectedPerson(updatedPerson);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

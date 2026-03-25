@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -22,6 +24,8 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+
+    private final ObjectProperty<Person> selectedPerson = new SimpleObjectProperty<>();
 
     private Predicate<Person> mostRecentPredicate = PREDICATE_SHOW_ALL_PERSONS;
 
@@ -138,6 +142,17 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         this.mostRecentPredicate = predicate;
         filteredPersons.setPredicate(predicate);
+    }
+
+    //=========== Selected Person Accessors =============================================================
+
+    public ObjectProperty<Person> getSelectedPerson() {
+        return selectedPerson;
+    }
+
+    @Override
+    public void setSelectedPerson(Person person) {
+        selectedPerson.set(person);
     }
 
     @Override

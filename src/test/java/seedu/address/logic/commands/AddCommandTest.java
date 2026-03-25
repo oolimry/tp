@@ -14,6 +14,8 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
@@ -42,6 +44,7 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(validPerson, modelStub.getSelectedPerson().getValue());
     }
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
@@ -166,6 +169,16 @@ public class AddCommandTest {
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public ObjectProperty<Person> getSelectedPerson() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setSelectedPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -191,6 +204,7 @@ public class AddCommandTest {
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
+        private final ObjectProperty<Person> selectedPerson = new SimpleObjectProperty<>();
 
         @Override
         public boolean hasPerson(Person person) {
@@ -202,6 +216,16 @@ public class AddCommandTest {
         public void addPerson(Person person) {
             requireNonNull(person);
             personsAdded.add(person);
+        }
+
+        @Override
+        public ObjectProperty<Person> getSelectedPerson() {
+            return selectedPerson;
+        }
+
+        @Override
+        public void setSelectedPerson(Person person) {
+            selectedPerson.set(person);
         }
 
         @Override
