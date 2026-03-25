@@ -185,12 +185,12 @@ public class AddCommandTest {
         public void sortMasterPersonList(Comparator<Person> comparator) {
             throw new AssertionError("This method should not be called.");
         }
-      
+
         @Override
         public ObjectProperty<Person> getSelectedPerson() {
             throw new AssertionError("This method should not be called.");
         }
-                                                                         
+
         @Override
         public void setSelectedPerson(Person person) {
             throw new AssertionError("This method should not be called.");
