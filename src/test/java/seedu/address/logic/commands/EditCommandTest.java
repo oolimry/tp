@@ -10,6 +10,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.SILENT;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -164,6 +166,47 @@ public class EditCommandTest {
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_validIndex_setsSelectedPerson() throws Exception {
+        Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
+        Person lastPerson = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
+
+        Person editedPerson = new PersonBuilder(lastPerson).withName(VALID_NAME_BOB).build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
+        EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
+
+        editCommand.execute(model);
+
+        assertEquals(editedPerson, model.getSelectedPerson().getValue());
+    }
+
+    @Test
+    public void execute_duplicatePersonUnfilteredList_doesNotSetSelectedPerson() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person secondPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        model.setSelectedPerson(secondPerson); // pre-existing selection is second person
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
+        EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
+
+        assertThrows(CommandException.class, EditCommand.MESSAGE_DUPLICATE_PERSON, () -> editCommand.execute(model));
+        assertEquals(secondPerson, model.getSelectedPerson().getValue()); // unchanged
+    }
+
+    @Test
+    public void execute_invalidIndex_doesNotSetSelectedPerson() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        model.setSelectedPerson(firstPerson); // pre-existing selection
+
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
+        EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
+
+        assertThrows(CommandException.class,
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () -> editCommand.execute(model));
+        assertEquals(firstPerson, model.getSelectedPerson().getValue()); // unchanged
     }
 
     @Test
