@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
+import javafx.util.Duration;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.model.person.Person;
@@ -53,8 +55,11 @@ public class PersonListPanel extends UiPart<Region> {
                 return;
             }
             personListView.getSelectionModel().select(index);
-            // nested runLater ensures layout is complete before scrolling
-            Platform.runLater(() -> personListView.scrollTo(index));
+
+            // Small delay to allow JavaFX layout pass to complete before scrolling
+            PauseTransition pause = new PauseTransition(Duration.millis(70));
+            pause.setOnFinished(event -> personListView.scrollTo(index));
+            pause.play();
         });
     }
 
