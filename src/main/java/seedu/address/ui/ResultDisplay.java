@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
-import javafx.scene.text.Font;
 
 /**
  * A ui for the status bar that is displayed at the header of the application.
@@ -17,6 +16,9 @@ public class ResultDisplay extends UiPart<Region> {
     @FXML
     private TextArea resultDisplay;
 
+    /**
+     * Creates a new {@code ResultDisplay} object with word wrap.
+     */
     public ResultDisplay() {
         super(FXML);
         resultDisplay.setWrapText(true);

@@ -208,9 +208,6 @@ public class EditCommandTest {
         Person secondPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         model.setSelectedPerson(firstPerson); // pre-existing selection is first person
 
-        System.out.println(firstPerson);
-        System.out.println(secondPerson);
-
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, descriptor);
         Person expectedPerson = new PersonBuilder(firstPerson)

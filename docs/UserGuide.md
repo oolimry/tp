@@ -54,6 +54,10 @@ proposition, etc. -->
    and use the `java -jar ScamBook.jar` command to run the
    application. (Note: The exact filename of the `.jar` file might differ, for example it might include a version number.) <br>
 
+### Important notes
+* While convenient, double-clicking the `.jar` file might not work for certain operating systems. It is recommended to follow step 4 above.
+* The app might not work properly if placed in a write-protected folder (undefined behaviour). Refer to the [Data](#saving-the-data) section for more information.
+
 <!-- Quickstart: Overview of UI -->
 ### Overview
 A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
@@ -250,11 +254,11 @@ Examples:
 
 
 
-### Marking the status of a person: `clearstatus`, `target`, `scammed`, or `ignore`
+### Marking the status of a person: `clearstatus`, `target`, `scam`, or `ignore`
 
 Sets the status of a specific person. We currently support 4 common statuses, each represented by its corresponding command name.
 
-In this section, `status_command` can be replaced by either one of `clearstatus`, `target`, `scammed`, or `ignore`.
+In this section, `status_command` can be replaced by either one of `clearstatus`, `target`, `scam`, or `ignore`.
 
 Format: `status_command INDEX`
 
@@ -265,7 +269,7 @@ Format: `status_command INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `scammed 2` marks the second person to have status "scammed".
+* `scam 2` marks the second person to have been scammed.
 * `ignore 4` marks the fourth person to be ignored (e.g. if you think the fourth person is unlikely to be a victim and you should not pursue this further).
 * `target 3` marks the third person as a potential target.
 * `clearstatus 1` clears the first person of any indicated status.
@@ -350,6 +354,8 @@ Furthermore, certain edits can cause the ScamBook to behave in unexpected ways (
 ## Future work
 1. The current tag name equality checking is done by checking string equality. In the future, we plan to add more equality checking semantics, to guard against accidental typos from users. In particular, we will incorporate case insensitivity and flexible whitespace (consecutive spaces will be treated as one). For example, `area code` and `Area code` will be treated as equal tag names, and hence disallowed in commands requiring unique tag names (with more friendly error messages suggesting a typo was made). On the other hand, `Area code` can be used to edit the tag of `area code` of an existing person, providing more convenience.
 
+2. The current format for command parameters uses double dashes (`--`), i.e. long options. This design choice was made because it ensures greater clarity in command formats, and also allows greater convenience in input values (single dashes can be used freely without having to escape it). Future work will support abbreviations, i.e. single dashes (`-`), just like command line applications, for greater convenience for experienced users.
+
 --------------------------------------------------------------------------------------------------------------------
 
 [//]: # (## Tutorials)
@@ -396,7 +402,7 @@ command output -->
 | **`sort`**        | Sorts the currently displayed list<br>`[FIELD] [--asc\|--desc] [--number\|--alpha]`<br> e.g., `sort phone --desc --number`                                                                   |
 | **`clearstatus`** | Clears the status of an existing person<br>`INDEX`<br> e.g., `clearstatus 1`                                                                                                                 |
 | **`target`**      | Marks an existing person as a target<br>`INDEX`<br> e.g., `target 2`                                                                                                                         |
-| **`scammed`**     | Marks an existing person as a scammer<br>`INDEX`<br> e.g., `scammed 3`                                                                                                                       |
+| **`scam`**        | Marks an existing person as a scammer<br>`INDEX`<br> e.g., `scam 3`                                                                                                                          |
 | **`ignore`**      | Marks an existing person as ignored<br>`INDEX`<br> e.g., `ignore 4`                                                                                                                          |
 | **`delete`**      | Deletes an existing person<br>`INDEX`<br> e.g., `delete 5`                                                                                                                                   |
 | **`list`**        | Lists all contacts                                                                                                                                                                           |

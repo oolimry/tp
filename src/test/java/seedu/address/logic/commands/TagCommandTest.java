@@ -155,7 +155,7 @@ public class TagCommandTest {
         model.setSelectedPerson(ALICE);
         model.addPerson(BENSON);
         TagCommand tagCommand = new TagCommand(INDEX_SECOND_PERSON,
-                List.of(new Tag("status:called")), List.of(), List.of());
+                List.of(new Tag("rich:no")), List.of(), List.of());
 
         assertThrows(CommandException.class, TagCommand.ADD_TAG_ALREADY_EXISTS, () -> tagCommand.execute(model));
         assertEquals(ALICE, model.getSelectedPerson().getValue());
