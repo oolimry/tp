@@ -185,9 +185,9 @@ we split the `args` into `tokenArgs` and `paramArgs`. These are then parsed sepa
 For `tokenArgs`, we split it into a number of segments by spaces.
 Each `Token` has a function `allowSpaces` which specifies if it allows spaces or not. 
 For each token in order, if it does not allow spaces, we assign it to the next segment. 
-If it allows spaces, we assign it we find the first segment that matches the next token, and then take segment in between.
+If it allows spaces, we find the first segment that matches the next token, and then assign segments in between to this token.
 
-If during the assigning there are too many or too few tokens, or if any segment does that match
+If during the assigning there are too many or too few tokens, or if any segment does not match
 the requirements of a token, a `ParseException` is thrown.
 
 Note: tokens that allow spaces can lead to ambiguous parsing. It is advised to keep such tokens as the very last token in general.
