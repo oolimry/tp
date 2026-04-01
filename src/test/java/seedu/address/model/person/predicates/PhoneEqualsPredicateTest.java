@@ -53,7 +53,7 @@ public class PhoneEqualsPredicateTest {
         assertFalse(predicate.test(new PersonBuilder().withPhone("87654321").build()));
 
         // Missing phone
-        assertThrows(AssertionError.class, () -> predicate.test(new PersonBuilder().build()));
+        assertFalse(predicate.test(new PersonBuilder().build()));
     }
 
     @Test
