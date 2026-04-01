@@ -2,13 +2,13 @@ package seedu.address.ui;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.CommandInfo;
 import seedu.address.commons.core.CommandRegistry;
-
-import java.util.Optional;
 
 /**
  * A ui for the status bar that is displayed at the header of the application.
@@ -42,8 +42,7 @@ public class ResultDisplay extends UiPart<Region> {
 
         if (commandInfo.isEmpty()) {
             setFeedbackToUser("Warning: " + commandWord + " is not a valid command!");
-        }
-        else {
+        } else {
             String line1 = "Format:";
             String line2 = commandWord + " " + commandInfo.get().getDescription();
             setFeedbackToUser(line1 + "\n" + line2);
