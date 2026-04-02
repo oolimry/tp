@@ -15,17 +15,36 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 
 /**
+ * Interface for testing of delete jar functionality
+ */
+@FunctionalInterface
+interface JarPathResolver {
+    Path resolve() throws URISyntaxException;
+}
+
+/**
  * Deletes local data artifacts and exits the program.
  */
 public class NukeCommand extends Command {
-
     public static final String COMMAND_WORD = "nuke";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the data folder and application jar, then exits.\n"
             + "Example: " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "Nuked. Exiting...";
-    public static final String MESSAGE_FAILURE = "Unable to nuke. An error occurred: %s";
+    public static final String MESSAGE_FAILURE = "Unable to nuke. An error occurred.";
+
+    private final JarPathResolver jarPathResolver;
+
+    public NukeCommand() {
+        this(() -> Paths.get(NukeCommand.class.getProtectionDomain()
+                .getCodeSource().getLocation().toURI()));
+    }
+
+    // Constructor with injected resolver
+    NukeCommand(JarPathResolver resolver) {
+        this.jarPathResolver = resolver;
+    }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -34,10 +53,10 @@ public class NukeCommand extends Command {
         try {
             deleteDataDirectory(model.getAddressBookFilePath());
             deleteJar();
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             Logger logger = LogsCenter.getLogger(ModelManager.class);
-            logger.warning(String.format(MESSAGE_FAILURE, e.getMessage()));
-            throw new CommandException(String.format(MESSAGE_FAILURE, e.getMessage()), e);
+            logger.warning(MESSAGE_FAILURE + e.getMessage());
+            return new CommandResult(MESSAGE_FAILURE, false, true, true);
         }
 
         return new CommandResult(MESSAGE_SUCCESS, false, true, true);
@@ -46,28 +65,18 @@ public class NukeCommand extends Command {
     private void deleteDataDirectory(Path addressBookFilePath) throws IOException {
         requireNonNull(addressBookFilePath);
 
-        Files.delete(addressBookFilePath);
         Path parent = addressBookFilePath.getParent();
         Path dataDirectory = parent.toAbsolutePath().normalize();
-        if (Files.exists(dataDirectory) && Files.list(dataDirectory).findAny().isEmpty()) {
+        Files.delete(addressBookFilePath);
+        if (Files.list(dataDirectory).findAny().isEmpty()) {
             Files.delete(dataDirectory);
         }
     }
 
-    private void deleteJar() throws IOException {
-        Path jarPath = resolveCurrentJarPath();
-        if (jarPath == null || !Files.exists(jarPath) || !Files.isRegularFile(jarPath)) {
-            return;
-        }
-
-        Files.deleteIfExists(jarPath);
-    }
-
-    private Path resolveCurrentJarPath() {
-        try {
-            return Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-        } catch (URISyntaxException e) {
-            return null;
+    private void deleteJar() throws IOException, URISyntaxException {
+        Path jarPath = jarPathResolver.resolve();
+        if (jarPath != null) {
+            Files.deleteIfExists(jarPath);
         }
     }
 }
