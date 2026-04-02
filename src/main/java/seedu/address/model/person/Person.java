@@ -34,7 +34,7 @@ public class Person {
      * Name and tag list must be present and not null (tag list can be empty).
      */
     public Person(Name name, Phone phone, Email email, TagList tags, Status status) {
-        requireAllNonNull(name, phone, email, tags, status); // defensive coding, to avoid null values
+        requireAllNonNull(name, tags, status); // defensive coding, to avoid null values
 
         this.name = name;
         this.phone = Optional.ofNullable(phone);
