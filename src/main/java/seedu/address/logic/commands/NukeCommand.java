@@ -20,8 +20,9 @@ public class NukeCommand extends Command {
 
     public static final String COMMAND_WORD = "nuke";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes the data folder and application jar,"
-            + "then exits.\nExample: " + COMMAND_WORD;
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Deletes the data folder and application jar, then exits.\n"
+            + "Example: " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "Nuked. Exiting...";
     public static final String MESSAGE_FAILURE = "Unable to nuke. An error occurred: %s";
 
