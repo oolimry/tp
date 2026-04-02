@@ -56,42 +56,34 @@ public class TagCommandTest {
         return model;
     }
 
+    public void helper(Person initial, Person expected, List<Tag> add, List<Tag> edit, List<Tag> delete) {
+        Model model = newModelWithPerson(initial);
+        Model expectedModel = newModelWithPerson(expected);
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON, add, edit, delete);
+        assertCommandSuccess(tagCommand, model, TagCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
     @Test
     public void execute_addTag_success() {
-        Model model = newModelWithPerson(ALICE);
-        Model expectedModel = newModelWithPerson(ALICE_ADDED);
-        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON,
-                List.of(new Tag("salary:10000")), List.of(), List.of());
-        assertCommandSuccess(tagCommand, model, TagCommand.MESSAGE_SUCCESS, expectedModel);
+        helper(ALICE, ALICE_ADDED, List.of(new Tag("salary:10000")), List.of(), List.of());
     }
 
     @Test
     public void execute_editTag_success() {
-        Model model = newModelWithPerson(ALICE);
-        Model expectedModel = newModelWithPerson(ALICE_EDITED);
-        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON,
-                List.of(), List.of(new Tag("job:student")), List.of());
-        assertCommandSuccess(tagCommand, model, TagCommand.MESSAGE_SUCCESS, expectedModel);
+        helper(ALICE, ALICE_EDITED, List.of(), List.of(new Tag("job:student")), List.of());
     }
 
     @Test
-    public void execute_deleteTag_success() {
-        Model model = newModelWithPerson(ALICE);
-        Model expectedModel = newModelWithPerson(ALICE_NO_JOB);
-        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON,
-                List.of(), List.of(), List.of(new Tag("job:dummy")));
-        assertCommandSuccess(tagCommand, model, TagCommand.MESSAGE_SUCCESS, expectedModel);
+    private void execute_deleteTag_success() {
+        helper(ALICE, ALICE_NO_JOB, List.of(), List.of(), List.of(new Tag("job:dummy")));
     }
 
     @Test
     public void execute_multiple_success() {
-        Model model = newModelWithPerson(ALICE_ADDED);
-        Model expectedModel = newModelWithPerson(ALICE_MULTIPLE);
-        TagCommand tagCommand = new TagCommand(INDEX_FIRST_PERSON,
+        helper(ALICE_ADDED, ALICE_MULTIPLE,
                 List.of(new Tag("school:NUS")),
                 List.of(new Tag("job:professor")),
                 List.of(new Tag("salary:dummy")));
-        assertCommandSuccess(tagCommand, model, TagCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
 
