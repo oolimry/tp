@@ -13,7 +13,10 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+<!-- list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well -->
+
+- ScamBook was adapted from Address Book 3 (https://github.com/NUS-CS2103-AY2526-S2/tp)
+- The `InputPattern` system was adapted from one of our member's [Individual Project](https://github.com/oolimry/ip)
 
 --------------------------------------------------------------------------------------------------------------------
 
