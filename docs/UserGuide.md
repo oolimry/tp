@@ -50,13 +50,8 @@ proposition, etc. -->
 1. Copy the file to the folder you want to use as the _home folder_ for
    your ScamBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in,
-   and use the `java -jar ScamBook.jar` command to run the
-   application. (Note: The exact filename of the `.jar` file might differ, for example it might include a version number.) <br>
-
-### Important notes
-* While convenient, double-clicking the `.jar` file might not work for certain operating systems. It is recommended to follow step 4 above.
-* The app might not work properly if placed in a write-protected folder (undefined behaviour). Refer to the [Data](#saving-the-data) section for more information.
+1. Double-click on the .jar file to run the application. If the application does not launch,
+refer to [FAQ](#Troubleshooting) for alternate ways to launch the application
 
 <!-- Quickstart: Overview of UI -->
 ### Overview
@@ -384,10 +379,6 @@ Install the app in the other computer and overwrite the empty data file it creat
 
 <!-- Tutorial: Power user features, shortcuts, efficient usage (only if features implemented) -->
 
-## FAQ
-**Q**: I have a question that is not answered here. Where can I ask it?<br>
-**A**: You can ask your question by creating a new issue in the [ScamBook
-repository](https://github.com/AY2526S2-CS2103T-T16-1/tp/issues).
 
 <!-- Known issues, e.g. bugs, limitations, etc. Only add if affects a normal user experience. Ideally this section does not exist.
 
