@@ -121,6 +121,7 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand, resultDisplay::setFormatTooltipFromPartialCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+        commandBox.requestFocus();
     }
 
     /**
