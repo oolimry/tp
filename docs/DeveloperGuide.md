@@ -13,13 +13,13 @@
 
 ## **Acknowledgements**
 
-- ScamBook was adapted from Address Book 3 (https://github.com/NUS-CS2103-AY2526-S2/tp)
+- ScamBook was adapted from Address Book 3 (https://github.com/NUS-CS2103-AY2526-S2/tp).
 
-- All members used Co-pilot for auto-complete tool during coding
+- All members used Co-pilot for auto-complete tool during coding.
 
-- All members used Claude for generating tests
+- All members used Claude for generating tests.
 
-- The `InputPattern` system was adapted from one of our member's [Individual Project](https://github.com/oolimry/ip)
+- The `InputPattern` system was adapted from one of our member's [Individual Project](https://github.com/oolimry/ip).
 
 
 --------------------------------------------------------------------------------------------------------------------
