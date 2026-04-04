@@ -61,5 +61,8 @@ public enum Status {
                 .orElseThrow(() -> new IllegalValueException("Invalid status: " + status));
     }
 
+    /**
+     * Returns the {@code Image} corresponding to each status.
+     */
     public abstract Image getStatusImage();
 }

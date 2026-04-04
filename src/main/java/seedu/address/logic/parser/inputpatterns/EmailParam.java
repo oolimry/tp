@@ -20,8 +20,8 @@ public class EmailParam extends Param {
     }
 
     @Override
-    boolean valueMatches(String value) throws IllegalValueException {
-        return Email.validateEmail(value);
+    public boolean valueMatches(String value) throws IllegalValueException {
+        return Email.isValidEmail(value);
     }
 }
 

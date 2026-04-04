@@ -13,7 +13,7 @@ import seedu.address.logic.parser.inputpatterns.IntegerToken;
 import seedu.address.logic.parser.inputpatterns.Token;
 
 /**
- * Parses input arguments and creates a new DeleteCommand object
+ * Parses input arguments and creates a new DeleteCommand object.
  */
 public class DeleteCommandParser extends Parser<DeleteCommand> {
 
@@ -26,11 +26,7 @@ public class DeleteCommandParser extends Parser<DeleteCommand> {
         return new InputPattern(DeleteCommand.COMMAND_WORD, tokens);
     }
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the DeleteCommand
-     * and returns a DeleteCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
+    @Override
     public DeleteCommand parse(String args) throws ParseException {
         requireNonNull(args);
         InputPattern inputPattern = createInputPattern();
@@ -40,5 +36,4 @@ public class DeleteCommandParser extends Parser<DeleteCommand> {
         Index index = ParserUtil.parseIndex(indexToken.getAssignedSegment());
         return new DeleteCommand(index);
     }
-
 }

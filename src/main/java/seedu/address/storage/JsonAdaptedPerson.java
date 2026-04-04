@@ -81,7 +81,7 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
         try {
-            Name.validateName(name);
+            Name.isValidName(name);
         } catch (IllegalValueException e) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -92,7 +92,7 @@ class JsonAdaptedPerson {
             modelPhone = null;
         } else {
             try {
-                Phone.validatePhone(phone);
+                Phone.isValidPhone(phone);
             } catch (IllegalValueException e) {
                 throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
             }
@@ -104,7 +104,7 @@ class JsonAdaptedPerson {
             modelEmail = null;
         } else {
             try {
-                Email.validateEmail(email);
+                Email.isValidEmail(email);
             } catch (IllegalValueException e) {
                 throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
             }

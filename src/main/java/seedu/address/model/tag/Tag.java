@@ -9,8 +9,6 @@ import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Tag in the address book.
- * Guarantees: immutable; name and value are valid as declared in
- * {@link #validateTagName(String)} and {@link #validateTagValue(String)}
  */
 public class Tag {
 
@@ -39,8 +37,8 @@ public class Tag {
     public static final String WHITESPACE_VALUE_CONSTRAINTS =
             "Tag values should contain at least one non-whitespace character.";
 
-    public final String tagName;
-    public final String tagValue;
+    private final String tagName;
+    private final String tagValue;
 
     /**
      * Constructs a {@code Tag}.
@@ -50,17 +48,17 @@ public class Tag {
     public Tag(String tagString) {
         try {
             requireNonNull(tagString);
-            Tag.validateTagString(tagString);
+            Tag.isValidTagString(tagString);
 
             String tagName = Tag.getNameFromRaw(tagString);
             String tagValue = Tag.getValueFromRaw(tagString);
 
             requireNonNull(tagName);
             requireNonNull(tagValue);
-            Tag.validateLength(tagName);
-            Tag.validateLength(tagValue);
-            Tag.validateTagName(tagName);
-            Tag.validateTagValue(tagValue);
+            Tag.isValidLength(tagName);
+            Tag.isValidLength(tagValue);
+            Tag.isValidTagName(tagName);
+            Tag.isValidTagValue(tagValue);
 
             this.tagName = tagName;
             this.tagValue = tagValue;
@@ -69,8 +67,25 @@ public class Tag {
         }
     }
 
+
+    /**
+     * Returns the tag name of this tag.
+     */
+    public String getTagName() {
+        return tagName;
+    }
+
+    /**
+     * Returns the tag value of this tag.
+     */
+    public String getTagValue() {
+        return tagValue;
+    }
+
+
     /**
      * Retrieves tag name from raw string representing the tag.
+     *
      * @param tag Raw tag string.
      * @return Tag name.
      */
@@ -80,6 +95,7 @@ public class Tag {
 
     /**
      * Retrieves tag value from raw string representing the tag.
+     *
      * @param tag Raw tag string.
      * @return Tag value.
      */
@@ -87,13 +103,15 @@ public class Tag {
         return tag.split(TAG_DELIMITER)[1].trim();
     }
 
+
     /**
-     * Checks if a given strings contains at most maxLength number of characters.
+     * Checks if a given string contains at most {@code maxLength} number of characters.
+     *
      * @param test The string to be tested.
      * @return True if the string is short enough.
      * @throws IllegalValueException If the string is too long, with specific error message.
      */
-    public static boolean validateLength(String test) throws IllegalValueException {
+    public static boolean isValidLength(String test) throws IllegalValueException {
         if (test.length() > Tag.MAX_LENGTH) {
             throw new IllegalValueException('"' + test + '"' + " is too long, it should not exceed "
                     + MAX_LENGTH + " characters.");
@@ -103,11 +121,12 @@ public class Tag {
 
     /**
      * Checks if a given string contains exactly one occurrence of the tag delimiter.
+     *
      * @param test The tag string to be tested.
      * @return True if string is valid.
      * @throws IllegalValueException If string is not valid, with specific error message.
      */
-    public static boolean validateTagString(String test) throws IllegalValueException {
+    public static boolean isValidTagString(String test) throws IllegalValueException {
         if (!test.matches(ONE_DELIMITER_REGEX)) {
             throw new IllegalValueException(ONE_DELIMITER_CONSTRAINT);
         }
@@ -122,12 +141,13 @@ public class Tag {
 
     /**
      * Checks if a given string is a valid tag name.
+     *
      * @param test The name to be tested.
      * @return True if name is valid.
      * @throws IllegalValueException If name is not valid, with specific error message.
      */
-    public static boolean validateTagName(String test) throws IllegalValueException {
-        validateLength(test);
+    public static boolean isValidTagName(String test) throws IllegalValueException {
+        isValidLength(test);
         if (test.isBlank()) {
             throw new IllegalValueException(WHITESPACE_NAME_CONSTRAINTS);
         }
@@ -142,11 +162,12 @@ public class Tag {
 
     /**
      * Checks if a given string contains the tag delimiter.
+     *
      * @param test The string to be tested.
      * @return True if string does not contain the tag delimiter.
      * @throws IllegalValueException If string contains the tag delimiter, with specific error message.
      */
-    public static boolean validateDeleteNameNoDelimiter(String test) throws IllegalValueException {
+    public static boolean isValidDeleteNameWithoutDelimiter(String test) throws IllegalValueException {
         if (test.contains(TAG_DELIMITER)) {
             throw new IllegalValueException(DELETE_TAG_NAME_ONLY);
         }
@@ -155,12 +176,13 @@ public class Tag {
 
     /**
      * Checks if a given string is a valid tag value.
+     *
      * @param test The value to be tested.
      * @return True if the string is a valid tag value.
      * @throws IllegalValueException If the string is not a valid tag value, with specific error message.
      */
-    public static boolean validateTagValue(String test) throws IllegalValueException {
-        validateLength(test);
+    public static boolean isValidTagValue(String test) throws IllegalValueException {
+        isValidLength(test);
         if (test.isBlank()) {
             throw new IllegalValueException(WHITESPACE_VALUE_CONSTRAINTS);
         }
@@ -172,27 +194,29 @@ public class Tag {
 
     /**
      * Checks if a given string is a fully valid tag.
+     *
      * @param test Tag string to be tested.
      * @return True if the string is a valid tag string.
      * @throws IllegalValueException If the string is not a valid tag string, with specific error message.
      */
-    public static boolean validateTagPair(String test) throws IllegalValueException {
-        Tag.validateTagString(test);
+    public static boolean isValidTagPair(String test) throws IllegalValueException {
+        Tag.isValidTagString(test);
 
         String tagName = Tag.getNameFromRaw(test);
         String tagValue = Tag.getValueFromRaw(test);
-        return Tag.validateTagName(tagName) && Tag.validateTagValue(tagValue);
+        return Tag.isValidTagName(tagName) && Tag.isValidTagValue(tagValue);
     }
 
     /**
      * Checks if a given {@code Tag} is a fully valid tag, without throwing errors.
+     *
      * @param test Tag to be tested.
      * @return Boolean indicating validity of tag.
      */
-    public static boolean isValidTagPair(Tag test) {
+    public static boolean isValidTagPairWithoutErrors(Tag test) {
         try {
-            Tag.validateTagName(test.tagName);
-            Tag.validateTagValue(test.tagValue);
+            Tag.isValidTagName(test.tagName);
+            Tag.isValidTagValue(test.tagValue);
             return true;
         } catch (IllegalValueException e) {
             return false;

@@ -6,7 +6,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Person's email in the address book.
- * Guarantees: immutable; is valid as declared in {@link #validateEmail(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidEmail(String)}.
  */
 public class Email {
 
@@ -46,7 +46,7 @@ public class Email {
     public Email(String email) {
         requireNonNull(email);
         try {
-            validateEmail(email);
+            isValidEmail(email);
         } catch (IllegalValueException e) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
@@ -54,9 +54,9 @@ public class Email {
     }
 
     /**
-     * Returns if a given string is a valid email.
+     * Checks if a given string is a valid email.
      */
-    public static boolean validateEmail(String test) throws IllegalValueException {
+    public static boolean isValidEmail(String test) throws IllegalValueException {
         if (test.matches(VALIDATION_REGEX)) {
             return true;
         } else {

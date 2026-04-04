@@ -4,7 +4,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.model.person.Status;
 
 /**
- * Clears the associated status with a given person to {@code Status.NONE}
+ * Clears the associated status with a given person to {@code Status.NONE}.
  */
 public class ClearStatusCommand extends SetStatusCommand {
     public static final String COMMAND_WORD = "clearstatus";

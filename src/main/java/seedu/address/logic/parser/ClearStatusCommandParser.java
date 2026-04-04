@@ -13,7 +13,7 @@ import seedu.address.logic.parser.inputpatterns.IntegerToken;
 import seedu.address.logic.parser.inputpatterns.Token;
 
 /**
- * Parses input arguments and creates a new ClearStatusCommand object
+ * Parses input arguments and creates a new ClearStatusCommand object.
  */
 public class ClearStatusCommandParser extends Parser<ClearStatusCommand> {
     @Override

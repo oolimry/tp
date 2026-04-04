@@ -64,7 +64,7 @@ public abstract class Param extends Token {
      */
     public boolean idMatches(String segment) {
         String strippedSegment = segment.strip();
-        return strippedSegment.matches(getId() + ".*");
+        return strippedSegment.matches(getId() + " .*") || (strippedSegment.equals(getId()));
     }
 
     String getValueFromSegment(String segment) {
@@ -73,7 +73,13 @@ public abstract class Param extends Token {
         return value;
     }
 
-    abstract boolean valueMatches(String value) throws IllegalValueException;
+    /**
+     * Checks if a string is a valid matching value for this {@code Param}.
+     *
+     * @param value String to be tested.
+     * @throws IllegalValueException An error whose message indicates why the value is invalid.
+     */
+    public abstract boolean valueMatches(String value) throws IllegalValueException;
 
     /**
      * Appends the value to the ArrayList of values
@@ -89,6 +95,7 @@ public abstract class Param extends Token {
      * Checks if the number of values associated with this param
      * is between minOccurnces and maxOccurences
      * If not, throws the ParseException
+     *
      * @throws ParseException
      */
     public void checkIfAppropriateNumberOfValues() throws ParseException {

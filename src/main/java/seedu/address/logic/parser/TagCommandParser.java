@@ -22,15 +22,10 @@ import seedu.address.logic.parser.inputpatterns.Token;
 import seedu.address.model.tag.Tag;
 
 /**
- * Parses input arguments and creates a new TagCommand object
+ * Parses input arguments and creates a new TagCommand object.
  */
 public class TagCommandParser extends Parser<TagCommand> {
 
-    /**
-     * Defines the InputPattern of the parser for TagCommand
-     *
-     * @return An InputPattern
-     */
     @Override
     InputPattern createInputPattern() {
         ArrayList<Token> tokens = new ArrayList<Token>(List.of(
@@ -46,11 +41,7 @@ public class TagCommandParser extends Parser<TagCommand> {
         return new InputPattern(TagCommand.COMMAND_WORD, tokens, params);
     }
 
-    /**
-     * Parses {@code userInput} into a command and returns it.
-     *
-     * @throws ParseException if {@code userInput} does not conform the expected format
-     */
+
     @Override
     TagCommand parse(String args) throws ParseException {
         try {

@@ -19,6 +19,9 @@ public interface Model {
     /** Retrieves the most recently used predicate to filter the list. */
     Predicate<Person> getMostRecentPredicate();
 
+    /**
+     * Sets the model to show the list of all persons.
+     */
     public void showAllPersons();
 
     /**
@@ -88,6 +91,7 @@ public interface Model {
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);

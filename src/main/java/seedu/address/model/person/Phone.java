@@ -6,7 +6,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Person's phone number in the address book.
- * Guarantees: immutable; is valid as declared in {@link #validatePhone(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidPhone(String)}.
  */
 public class Phone {
 
@@ -27,7 +27,7 @@ public class Phone {
     public Phone(String phone) {
         requireNonNull(phone);
         try {
-            validatePhone(phone);
+            isValidPhone(phone);
         } catch (IllegalValueException e) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
@@ -35,9 +35,9 @@ public class Phone {
     }
 
     /**
-     * Returns true if a given string is a valid phone number.
+     * Checks if a given string is a valid phone number.
      */
-    public static boolean validatePhone(String test) throws IllegalValueException {
+    public static boolean isValidPhone(String test) throws IllegalValueException {
         if (test.matches(VALIDATION_REGEX)) {
             return true;
         } else {

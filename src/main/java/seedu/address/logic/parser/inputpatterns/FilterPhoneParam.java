@@ -19,7 +19,7 @@ public class FilterPhoneParam extends Param {
     }
 
     @Override
-    boolean valueMatches(String value) throws IllegalValueException {
+    public boolean valueMatches(String value) throws IllegalValueException {
         return !value.isBlank();
     }
 }

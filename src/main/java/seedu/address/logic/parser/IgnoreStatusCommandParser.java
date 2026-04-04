@@ -13,7 +13,7 @@ import seedu.address.logic.parser.inputpatterns.IntegerToken;
 import seedu.address.logic.parser.inputpatterns.Token;
 
 /**
- * Parses input arguments and creates a new IgnoreStatusCommand object
+ * Parses input arguments and creates a new IgnoreStatusCommand object.
  */
 public class IgnoreStatusCommandParser extends Parser<IgnoreStatusCommand> {
     @Override

@@ -6,7 +6,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Person's name in the address book.
- * Guarantees: immutable; is valid as declared in {@link #validateName(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}.
  */
 public class Name {
 
@@ -14,7 +14,7 @@ public class Name {
             "Names should only contain alphanumeric characters, spaces, and the characters ,.()`'/\\-"
             + "\nAlso, it should not be blank.";
 
-    /*
+    /**
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
@@ -30,7 +30,7 @@ public class Name {
     public Name(String name) {
         requireNonNull(name);
         try {
-            validateName(name);
+            isValidName(name);
         } catch (IllegalValueException e) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
@@ -38,9 +38,9 @@ public class Name {
     }
 
     /**
-     * Returns true if a given string is a valid name.
+     * Checks if a given string is a valid name.
      */
-    public static boolean validateName(String test) throws IllegalValueException {
+    public static boolean isValidName(String test) throws IllegalValueException {
         if (test.strip().matches(VALIDATION_REGEX)) {
             return true;
         } else {

@@ -13,7 +13,7 @@ import seedu.address.logic.parser.inputpatterns.IntegerToken;
 import seedu.address.logic.parser.inputpatterns.Token;
 
 /**
- * Parses input arguments and creates a new ScamStatusCommand object
+ * Parses input arguments and creates a new ScamStatusCommand object.
  */
 public class ScamStatusCommandParser extends Parser<ScamStatusCommand> {
     @Override

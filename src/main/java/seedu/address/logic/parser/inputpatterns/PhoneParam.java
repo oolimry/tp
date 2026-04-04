@@ -22,7 +22,7 @@ public class PhoneParam extends Param {
     }
 
     @Override
-    boolean valueMatches(String value) throws IllegalValueException {
-        return Phone.validatePhone(value);
+    public boolean valueMatches(String value) throws IllegalValueException {
+        return Phone.isValidPhone(value);
     }
 }

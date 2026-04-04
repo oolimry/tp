@@ -13,7 +13,14 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+- ScamBook was adapted from Address Book 3 (https://github.com/NUS-CS2103-AY2526-S2/tp).
+
+- All members used Co-pilot for auto-complete tool during coding.
+
+- All members used Claude for generating tests.
+
+- The `InputPattern` system was adapted from one of our member's [Individual Project](https://github.com/oolimry/ip).
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -282,6 +289,8 @@ command box, `CommandRegistry#getCommandInfo(commandName)` is called to retrieve
 
 ## **Appendix: Requirements**
 
+<br>
+
 ### Product scope
 
 **Target user profile**:
@@ -301,9 +310,11 @@ Phone-call based scam caller who
 * Full data wipe in case of emergency situations
 
 
+<br>
+
 ### User stories
 
-Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
+Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`. The features marked as `^` are not implemented at the moment
 
 | Priority | As a …​                        | I want to …​                                                                                 | So that I can…​                                                                  |
 |----------|--------------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
@@ -321,17 +332,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | scam caller                    | edit potential victim profile                                                                | I can update victim profile as more information gets known                       |
 | `* *`    | beginner user                  | get help on the commands                                                                     | I can familiarise myself with the various tools at my disposal                   |
 | `* *`    | scam caller                    | filter by high risk demographics such as old age & high reward demographics like high income | prioritize who I should call                                                     |
-| `* *`    | scam caller                    | draw and label a relationship from one person to another person                              | when I scam someone, I can use personal information about another person as bait |
+| `* * ^`  | scam caller                    | draw and label a relationship from one person to another person                              | when I scam someone, I can use personal information about another person as bait |
 | `* *`    | successful scam caller         | import and manage a large contact list                                                       | I can work with a larger number of victims                                       |
-| `* *`    | busy scam caller               | see and quickly type auto-filled commands                                                    | I can avoid typing repetitive commands and quickly add new victims               |
+| `* *  `  | busy scam caller               | navigate past commands                                                                       | I can avoid typing repetitive commands and quickly add new victims               |
+| `* *  `  | busy scam caller               | see command formats while typing commands                                                    | I can quickly and correctly type commands without errors                         |
 | `* *`    | beginner scam caller           | load and interact with sample data                                                           | I have the freedom to try commands without having access to a large victim base  |
-| `* *`    | scam caller                    | set reminders to follow up calls on victims                                                  | I can review which targets need to be called again                               |
-| `* *`    | scam caller                    | view a detailed dashboard of a specific victim                                               | refer to that victim's information during a scam call                            |
+| `* * ^`  | scam caller                    | set reminders to follow up calls on victims                                                  | I can review which targets need to be called again                               |
+| `* * ^`  | scam caller                    | view a detailed dashboard of a specific victim                                               | refer to that victim's information during a scam call                            |
 | `* *`    | high-volume scam caller        | obtain search results quickly even with large numbers of contacts                            | I am not slowed down during operations                                           |
-| `* *`    | security-conscious scam caller | have encrypted local storage and auto-lock                                                   | sensitive data is protected and secure                                           |
-| `* *`    | security-conscious scam caller | require logging in for the app                                                               | sensitive data is protected and secure                                           |
+| `* * ^`  | security-conscious scam caller | have encrypted local storage and auto-lock                                                   | sensitive data is protected and secure                                           |
+| `* * ^`  | security-conscious scam caller | require logging in for the app                                                               | sensitive data is protected and secure                                           |
 | `*`      | scam caller                    | purge data immediately                                                                       | I can wipe my hard disk if I get raided by the police                            |
-| `*`      | new user                       | follow a tutorial                                                                            | I am guided through the onboarding process                                       |
+| `* ^`    | new user                       | follow a tutorial                                                                            | I am guided through the onboarding process                                       |
+
+<br>
 
 ### Use cases
 
@@ -450,14 +464,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
+<br>
+
 ### Non-Functional Requirements
 
-1. Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 1000 victims without a noticeable sluggishness in performance for typical usage.
-3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
-   able to accomplish most of the tasks faster using commands than using the mouse.
+1. Should work on any _[mainstream OS](#glossary)_ as long as it has Java `17` or above installed.
+2. Should be able to hold up to 200 victims without a noticeable sluggishness in performance for typical usage.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using a traditional mouse-based Graphical User Interface.
 4. Should be fully functional without an internet connection.
 5. Should accept only ASCII characters in user input, and display all stored information in ASCII characters.
+
+<br>
 
 ### Glossary
 
@@ -503,3 +520,9 @@ Please follow the setup instructions in the [user guide](UserGuide.html#installa
 <br>
 
 ## **Appendix: Planned enhancements**
+
+Team size: 5 people
+
+1. **Improve code quality for `sort` command:** The sort command parser does not use the existing `InputPattern` system used by all other commands that have any arguments, as it has somewhat distinct syntax. For improving code quality, we plan to make `InputPattern` more flexible to accommodate the `sort` command's syntax, and future commands that may have more varied syntax.
+
+2. **Allow `edit` command to clear name, phone and email fields:** Currently, the `edit` command requires the edited name, phone, or email to be another valid value, and the empty string is always invalid. However, there may be use cases when the user wishes to mark one of name, phone or email as null or empty. We plan to add this functionality, for example by allowing users to input `--phone ""` to clear the phone field.

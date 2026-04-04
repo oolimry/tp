@@ -4,7 +4,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.model.person.Status;
 
 /**
- * Sets the associated status with a given person to {@code Status.IGNORE}
+ * Sets the associated status with a given person to {@code Status.IGNORE}.
  */
 public class IgnoreStatusCommand extends SetStatusCommand {
     public static final String COMMAND_WORD = "ignore";

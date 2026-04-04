@@ -20,7 +20,7 @@ public class StatusParam extends Param {
     }
 
     @Override
-    boolean valueMatches(String value) throws IllegalValueException {
+    public boolean valueMatches(String value) throws IllegalValueException {
         if (!Status.isValidStatus(value)) {
             throw new IllegalValueException("Status must be one of: NONE, TARGET, SCAM, IGNORE");
         }

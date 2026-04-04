@@ -19,6 +19,7 @@ public class TagList {
 
     /**
      * Creates a new TagList object by deep copying the contents of another TagList object.
+     *
      * @param other The TagList object to be referenced.
      */
     public TagList(TagList other) {
@@ -28,6 +29,7 @@ public class TagList {
 
     /**
      * Creates a new TagList object from a variable number of tag strings.
+     *
      * @param tagStrings Varargs argument of variable number of tag strings.
      */
     public TagList(String... tagStrings) {
@@ -39,6 +41,7 @@ public class TagList {
 
     /**
      * Creates a new TagList object from a list of Tags.
+     *
      * @param tags List of Tags to be put into the new TagList.
      */
     public TagList(List<Tag> tags) {
@@ -48,18 +51,30 @@ public class TagList {
         }
     }
 
+    /**
+     * Adds a {@code Tag} to the {@code TagList}.
+     */
     public void addTag(Tag tag) {
-        this.tags.put(tag.tagName, tag.tagValue);
+        this.tags.put(tag.getTagName(), tag.getTagValue());
     }
 
+    /**
+     * Edits a {@code Tag} in the {@code TagList}.
+     */
     public void editTag(Tag tag) {
-        this.tags.replace(tag.tagName, tag.tagValue);
+        this.tags.replace(tag.getTagName(), tag.getTagValue());
     }
 
+    /**
+     * Deletes a {@code Tag} in the {@code TagList}.
+     */
     public void deleteTag(Tag tag) {
-        this.tags.remove(tag.tagName);
+        this.tags.remove(tag.getTagName());
     }
 
+    /**
+     * Checks if any tag exists in the {@code TagList} with the corresponding tag name.
+     */
     public boolean containsTagName(String tagName) {
         return this.tags.containsKey(tagName);
     }
@@ -78,7 +93,8 @@ public class TagList {
     }
 
     /**
-     * Returns a list of string representations of each tag stored in this TagList.
+     * Returns a list of string representations of each tag stored in this {@code TagList}.
+     *
      * @return List of strings corresponding to each tag.
      */
     public List<String> viewTags() {
@@ -88,6 +104,7 @@ public class TagList {
 
     /**
      * Returns a string representation of the tags in a table format.
+     *
      * @return A string containing the tags in a table format.
      */
     public String viewTagsTable() {

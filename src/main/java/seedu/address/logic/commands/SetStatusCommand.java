@@ -15,7 +15,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Status;
 
 /**
- * Sets the associated status of a given person
+ * Sets the associated status of a given person.
  */
 public class SetStatusCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Status set successfully.";
@@ -84,8 +84,7 @@ public class SetStatusCommand extends Command {
     }
 
     /**
-     * Returns string representation of specific {@code SetStatusCommand}.
-     * Used for subclasses.
+     * Returns the string representation of a specific {@code SetStatusCommand}.
      */
     public String toString(SetStatusCommand command) {
         return new ToStringBuilder(command)
