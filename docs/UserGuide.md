@@ -111,7 +111,7 @@ Refer to the [Command List](#commands) below for details of each command, or the
 
 * The Parameter `INDEX` refers to the number on the left side of the address book.
     * For example, the delete command has the format `delete INDEX`. If we type `delete 4`, ScamBook will delete David Li's entry in the below example:
-      ![AddExample3.png](images/AddExample2.png)
+      ![DeleteExample.png](images/DeleteExample.png)
 
 * Parameters with `…`​ after them can be used multiple times (including zero times).<br>
   e.g. `[--tag NAME:VALUE]…​` can be used as ` ` (i.e. 0 times), `--tag school:NUS`, `--tag school:NUS --tag salary:10000` etc.
