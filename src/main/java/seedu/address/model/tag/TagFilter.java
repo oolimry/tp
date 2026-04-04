@@ -24,12 +24,12 @@ public class TagFilter {
 
         try {
             if (filterStr.contains(Tag.TAG_DELIMITER)) {
-                Tag.validateTagPair(filterStr);
+                Tag.isValidTagPair(filterStr);
                 this.tagName = Tag.getNameFromRaw(filterStr);
                 this.tagValue = Tag.getValueFromRaw(filterStr);
             } else {
                 String strippedFilter = filterStr.trim();
-                Tag.validateTagName(strippedFilter);
+                Tag.isValidTagName(strippedFilter);
                 this.tagName = strippedFilter;
                 this.tagValue = null;
             }

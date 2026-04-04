@@ -20,6 +20,6 @@ public class TagEditParam extends Param {
 
     @Override
     public boolean valueMatches(String value) throws IllegalValueException {
-        return Tag.validateTagString(value);
+        return Tag.isValidTagString(value);
     }
 }

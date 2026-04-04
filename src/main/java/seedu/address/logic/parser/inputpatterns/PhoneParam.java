@@ -23,6 +23,6 @@ public class PhoneParam extends Param {
 
     @Override
     boolean valueMatches(String value) throws IllegalValueException {
-        return Phone.validatePhone(value);
+        return Phone.isValidPhone(value);
     }
 }

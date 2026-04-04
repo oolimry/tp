@@ -84,7 +84,7 @@ public class TagCommand extends Command {
                 person.getStatus());
 
         for (Tag tag : addTags) {
-            assert(Tag.isValidTagPair(tag));
+            assert(Tag.isValidTagPairWithoutErrors(tag));
 
             if (updatedPerson.getTags().containsTagName(tag.getTagName())) {
                 throw new CommandException(ADD_TAG_ALREADY_EXISTS);
@@ -93,7 +93,7 @@ public class TagCommand extends Command {
         }
 
         for (Tag tag : editTags) {
-            assert(Tag.isValidTagPair(tag));
+            assert(Tag.isValidTagPairWithoutErrors(tag));
 
             if (!updatedPerson.getTags().containsTagName(tag.getTagName())) {
                 throw new CommandException(EDIT_TAG_NAME_DOES_NOT_EXIST);
@@ -102,7 +102,7 @@ public class TagCommand extends Command {
         }
 
         for (Tag tag : deleteTags) {
-            assert(Tag.isValidTagPair(tag));
+            assert(Tag.isValidTagPairWithoutErrors(tag));
 
             if (!updatedPerson.getTags().containsTagName(tag.getTagName())) {
                 throw new CommandException(DELETE_TAG_NAME_DOES_NOT_EXIST);
