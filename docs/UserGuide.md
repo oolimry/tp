@@ -94,6 +94,10 @@ To understand more about how to interpret the command formats, refer to [Command
 
 Refer to the [Command List](#commands) below for details of each command, or the [Commands Summary](#commands-summary) section for a quick summary of all commands and their formats.
 
+<box type="tip" seamless>
+<b>Tip:</b> Use the UP and DOWN arrow keys to navigate past command history.
+</box>
+
 --------------------------------------------------------------------------------------------------------------------
 
 <!-- Disclaimer for command format, applicable to all commands -->
@@ -183,7 +187,7 @@ Format: `add NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`
 * If multiple tag name-value pairs have the same tag name (see section on [Tag](#tagging-a-person--tag) below regarding tag name equality), the last value will be used.
 
 <box type="tip" seamless>
-<b>Tip:</b> A person can have any number of tags (including 0)
+<b>Tip:</b> A person can have any number of tags (including 0).
 </box>
 
 Examples:
