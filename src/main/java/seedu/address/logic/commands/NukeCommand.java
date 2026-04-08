@@ -60,7 +60,7 @@ public class NukeCommand extends Command {
             deleteDataDirectory(model.getAddressBookFilePath());
             deleteJar();
         } catch (IOException | URISyntaxException e) {
-            Logger logger = LogsCenter.getLogger(ModelManager.class);
+            Logger logger = LogsCenter.getLogger(NukeCommand.class);
             logger.warning(MESSAGE_FAILURE + e.getMessage());
             return new CommandResult(MESSAGE_FAILURE, false, true, true);
         }
