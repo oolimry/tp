@@ -11,11 +11,13 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
 public class NukeCommandTest {
+    private static final String LOG_FILE_PREFIX = LogsCenter.getLogFileName();
 
     @TempDir
     public Path tempDir;
@@ -28,6 +30,10 @@ public class NukeCommandTest {
         Files.createDirectory(dataDirectory);
         Path addressBookFile = dataDirectory.resolve("addressbook.json");
         Files.createFile(addressBookFile);
+        Path activeLogFile = tempDir.resolve(LOG_FILE_PREFIX);
+        Path rotatedLogFile = tempDir.resolve(LOG_FILE_PREFIX + ".0");
+        Files.createFile(activeLogFile);
+        Files.createFile(rotatedLogFile);
 
         UserPrefs userPrefs = new UserPrefs();
         userPrefs.setAddressBookFilePath(addressBookFile);
@@ -41,6 +47,8 @@ public class NukeCommandTest {
         assertTrue(result.isSkipSave());
         assertFalse(Files.exists(dataDirectory));
         assertFalse(Files.exists(addressBookFile));
+        assertFalse(Files.exists(activeLogFile));
+        assertFalse(Files.exists(rotatedLogFile));
     }
 
     @Test
@@ -53,6 +61,8 @@ public class NukeCommandTest {
         Files.createFile(addressBookFile);
         Path tmp = dataDirectory.resolve("nested").resolve("cache.tmp");
         Files.createFile(tmp);
+        Path lockFile = tempDir.resolve(LOG_FILE_PREFIX + ".lck");
+        Files.createFile(lockFile);
 
         UserPrefs userPrefs = new UserPrefs();
         userPrefs.setAddressBookFilePath(addressBookFile);
@@ -67,6 +77,7 @@ public class NukeCommandTest {
         assertTrue(Files.exists(dataDirectory));
         assertFalse(Files.exists(addressBookFile));
         assertTrue(Files.exists(tmp));
+        assertFalse(Files.exists(lockFile));
     }
 
     @Test
