@@ -78,10 +78,8 @@ public class NukeCommand extends Command {
         Path dataDirectory = parent.toAbsolutePath().normalize();
         Files.delete(addressBookFilePath);
         // Delete the data directory if it is empty after deleting the address book file
-        try (Stream<Path> dataDirectoryEntries = Files.list(dataDirectory)) {
-            if (dataDirectoryEntries.findAny().isEmpty()) {
-                Files.delete(dataDirectory);
-            }
+        if (Files.list(dataDirectory).findAny().isEmpty()) {
+            Files.delete(dataDirectory);
         }
     }
 
@@ -97,11 +95,9 @@ public class NukeCommand extends Command {
         // Delete all files with the log file prefix in the same directory as the jar file
         String logPrefix = LogsCenter.getLogFileName();
         Path appDirectory = jarPath.getParent().toAbsolutePath().normalize();
-        try (DirectoryStream<Path> logFiles = Files.newDirectoryStream(appDirectory, logPrefix + "*")) {
-            for (Path logFile : logFiles) {
-                if (Files.isRegularFile(logFile)) {
-                    Files.deleteIfExists(logFile);
-                }
+        for (Path logFile : Files.newDirectoryStream(appDirectory, logPrefix + "*")) {
+            if (Files.isRegularFile(logFile)) {
+                Files.deleteIfExists(logFile);
             }
         }
     }

@@ -2,11 +2,14 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -144,5 +147,71 @@ public class NukeCommandTest {
         assertTrue(result.isSkipSave());
         assertFalse(Files.exists(dataDirectory));
         assertFalse(Files.exists(addressBookFile));
+    }
+
+    @Test
+    void execute_modelNull_throwsNullPointerException() {
+        NukeCommand command = new NukeCommand();
+
+        assertThrows(NullPointerException.class, () -> command.execute(null));
+    }
+
+    @Test
+    void execute_jarPathHasNoParent_succeedsWithoutDeletingLogs() throws Exception {
+        Path dataDirectory = tempDir.resolve("data");
+        Files.createDirectory(dataDirectory);
+        Path addressBookFile = dataDirectory.resolve("addressbook.json");
+        Files.createFile(addressBookFile);
+        Path unrelatedLogFile = tempDir.resolve(LOG_FILE_PREFIX);
+        Files.createFile(unrelatedLogFile);
+
+        UserPrefs userPrefs = new UserPrefs();
+        userPrefs.setAddressBookFilePath(addressBookFile);
+        Model model = new ModelManager();
+        model.setUserPrefs(userPrefs);
+
+        CommandResult result = new NukeCommand(() -> Paths.get("jar-without-parent.jar")).execute(model);
+
+        assertEquals(NukeCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
+        assertTrue(result.isExit());
+        assertTrue(result.isSkipSave());
+        assertFalse(Files.exists(dataDirectory));
+        assertFalse(Files.exists(addressBookFile));
+        assertTrue(Files.exists(unrelatedLogFile));
+    }
+
+    @Test
+    void execute_logPathMatchesDirectory_directoryIsNotDeleted() throws Exception {
+        Path jarFile = tempDir.resolve("app.jar");
+        Files.createFile(jarFile);
+        Path dataDirectory = tempDir.resolve("data");
+        Files.createDirectory(dataDirectory);
+        Path addressBookFile = dataDirectory.resolve("addressbook.json");
+        Files.createFile(addressBookFile);
+        Path logNamedDirectory = tempDir.resolve(LOG_FILE_PREFIX + ".archive");
+        Files.createDirectory(logNamedDirectory);
+
+        UserPrefs userPrefs = new UserPrefs();
+        userPrefs.setAddressBookFilePath(addressBookFile);
+        Model model = new ModelManager();
+        model.setUserPrefs(userPrefs);
+
+        CommandResult result = new NukeCommand(() -> jarFile).execute(model);
+
+        assertEquals(NukeCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
+        assertTrue(result.isExit());
+        assertTrue(result.isSkipSave());
+        assertTrue(Files.exists(logNamedDirectory));
+    }
+
+    @Test
+    void equals() {
+        NukeCommand first = new NukeCommand();
+        NukeCommand second = new NukeCommand();
+
+        assertEquals(first, first);
+        assertEquals(first, second);
+        assertNotEquals(first, null);
+        assertNotEquals(first, 123);
     }
 }
