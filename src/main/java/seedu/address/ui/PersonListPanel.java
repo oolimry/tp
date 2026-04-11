@@ -50,10 +50,23 @@ public class PersonListPanel extends UiPart<Region> {
                 personListView.getSelectionModel().clearSelection();
                 return;
             }
-            int index = personListView.getItems().indexOf(person);
-            if (index < 0) {
+
+            // it cannot be declared as just index as it must be effectively final
+            // for the lines `event -> personListView.scrollTo(index)`
+            int tempIndex = -1;
+
+            for (int i = 0; i < personListView.getItems().size(); i++) {
+                Person p = personListView.getItems().get(i);
+                if (p.exactEquals(person)) {
+                    tempIndex = i;
+                    break;
+                }
+            }
+            if (tempIndex < 0) {
                 return;
             }
+
+            int index = tempIndex;
             personListView.getSelectionModel().select(index);
 
             // Small delay to allow JavaFX layout pass to complete before scrolling

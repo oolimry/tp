@@ -116,6 +116,15 @@ public class Person {
                 && status.equals(otherPerson.status);
     }
 
+    /**
+     * Returns true if both persons refer to the exact same person object,
+     * even if all their details are the same
+     * Use this
+     */
+    public boolean exactEquals(Object other) {
+        return (other == this);
+    }
+
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
