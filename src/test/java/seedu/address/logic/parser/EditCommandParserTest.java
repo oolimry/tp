@@ -132,6 +132,6 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + " " + PARAM_ID_PHONE + " " + VALID_PHONE_BOB
                 + " " + PARAM_ID_PHONE + " " + VALID_PHONE_AMY;
 
-        assertParseFailure(parser, userInput, "2 parameters of --phone inputted expected at most 1 only");
+        assertParseFailure(parser, userInput, "2 parameters of --phone inputted, expected at most 1 only.");
     }
 }

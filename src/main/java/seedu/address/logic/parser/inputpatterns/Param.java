@@ -104,7 +104,7 @@ public abstract class Param extends Token {
         }
         if (values.size() > maxOccurences) {
             throw new ParseException(values.size() + " parameters of " + getId() + " inputted, "
-                    + " expected at most " + maxOccurences + " only.");
+                    + "expected at most " + maxOccurences + " only.");
         }
     }
 
