@@ -17,12 +17,12 @@ public interface Model {
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
     /** Retrieves the most recently used predicate to filter the list. */
-    Predicate<Person> getMostRecentPredicate();
+    Predicate<Person> getCurrentPredicate();
 
     /**
      * Sets the model to show the list of all persons.
      */
-    public void showAllPersons();
+    void showAllPersons();
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.

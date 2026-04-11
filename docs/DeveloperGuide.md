@@ -80,7 +80,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103T-T16-1/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-T16-1/tp/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFX UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103T-T16-1/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-T16-1/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -93,9 +93,12 @@ The `UI` component,
 
 **API** : [`Logic.java`](https://github.com/AY2526S2-CS2103T-T16-1/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
-Below is a class diagram of the `Logic` component:
+Below is a class diagram of the `Logic` component.
 
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
+<box type="info" seamless>
+Due to limitations of PlantUML, the note is denoted by a speech bubble instead of a comment box connected by a dotted line, as taught in this course.
+</box>
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
@@ -145,7 +148,9 @@ In this case, `--phone` and `--email` can appear between 0 and 1 times, while `-
 The `Model` component,
 
 * stores the ScamBook data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the currently 'to be displayed' `Person` objects (e.g., results of a search query) as a separate _filtered and/or sorted_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores one currently selected `Person`, so autoscroll will display the corresponding person after a command. While the class diagram displays this as a `Person` object, it is actually implemented as `ObjectProperty<Person>` for UI reasons.
+* stores one `Predicate` representing the current filter applied to the master list of all `Person` objects to get the currently displayed list.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -437,25 +442,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case ends.
 
     
-**Use case: UC05 - Append New Information to a Victim Profile**
+**Use case: UC05 - Append New Tag to a Victim Profile**
 
 **MSS:**
 
-1. User requests to append information to a specified profile.
-2. System validates the specification and the new information.
-3. System updates the profile with the new information and displays a success message with the updated profile.
+1. User requests to append a new tag to a specified profile.
+2. System validates the new tag name-value pair.
+3. System updates the profile with the new tag and displays a success message with the updated profile.
 
     Use case ends.
 
 **Extensions:**
 
-* 2a. No new information is provided or profile is not well specified.
-    * 2a1. System shows an error indicating the expected specification or information format.
+* 2a. The profile is not well specified.
+    * 2a1. System shows an error indicating the expected specification format.
 
       Use case ends.
  
-* 2b. The new information is invalid.
-    * 2b1. System shows an error indicating the expected information format.
+* 2b. The new tag is invalid.
+    * 2b1. System shows an error indicating the conditions and format the new tag should satisfy.
 
       Use case ends.
 
@@ -469,7 +474,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1. Should work on any _[mainstream OS](#glossary)_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 200 victims without a noticeable sluggishness in performance for typical usage.
+2. Should be able to hold up to 1000 victims without a noticeable sluggishness in performance for typical usage.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using a traditional mouse-based Graphical User Interface.
 4. Should be fully functional without an internet connection.
 5. Should accept only ASCII characters in user input, and display all stored information in ASCII characters.
@@ -572,3 +577,13 @@ Team size: 5 people
 3. **Allow users to filter on an already filtered list:** Currently, when a filter is applied, it is applied to the master list of all contacts, and the previous filter, if any, is removed. We plan to allow users to apply filters on top of already filtered lists, which would be more flexible and allow users to narrow down results more efficiently by constructing more complex filters across multiple commands. We plan to introduce an addition `--inplace` flag, so that when a user applies a filter with this flag, the filter is applied on top of the currently displayed list instead of the master list.
 
 4. **Filter on negative conditions:** Currently, users can only filter by positive conditions, e.g., `--status target` to filter for contacts that have status marked as `TARGET`. We plan to allow users to filter by negative conditions, e.g., `--negate --status ignore` to filter for contacts that do not have the `IGNORE` status, a very reasonable scenario.
+
+5. **Implement an escape character:** Currently, input strings that contain characters reserved for command syntax, such as `--` or `:`, as part of a token or parameter value are either disallowed or may result in unexpected interactions and hence discouraged. We plan to introduce an escape character, e.g., `\`, so that users can escape such reserved characters without error and freely.
+
+6. **Allow editing of tag names:** Currently, the `tag` command only allows users to add a new tag, edit an existing tag value, or delete tags. There is no support to directly edit an existing tag name, and users will need to add a new tag with the updated name and delete the old tag. We plan to add support for editing tag names, for example by allowing users to input `tag 3 --editname oldtag:newtag` to change the tag name from `oldtag` to `newtag` while keeping the same tag value.
+
+7. **Support shorter versions of parameter flags:** Most CLI applications support two versions of flags, one shorter and one more verbose. For example, Git treats `-n` and `--no-verify` as the same flag. We plan to support this in ScamBook as well for all our flags starting with `--`, for example by allowing `-p` as a shorter version of `--phone`.
+
+8. **Equality checking for tag names:** The current design choice has limited duplicate checking for tag names, because we wanted a robust system that will warn users when duplicates are detected instead of directly erroring out. We deemed this implementation to have less priority, hence it will only be included in future iterations. In particular, we will incorporate case insensitivity and flexible whitespace (consecutive spaces will be treated as one). For example, `area code` and `Area code` will be treated as equal tag names, and hence disallowed in commands requiring unique tag names (with more friendly error messages suggesting a typo was made). Furthermore, `tag 1 --edit Area code:<new code>` can be used to edit the existing tag of `area code:<old code>` of an existing person, providing more convenience.
+
+9. **Better integer parsing:** Currently, tag values are parsed as is, so values such as `$100000` and `$200,000` are not recognised as numbers. This feature will allow more flexible interpretation of numbers, allowing the `sort` command to work numerically on tags such as `savings: $1,000,000`.
