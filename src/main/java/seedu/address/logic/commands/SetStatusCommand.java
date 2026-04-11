@@ -55,6 +55,10 @@ public class SetStatusCommand extends Command {
         model.setPerson(person, updatedPerson);
         model.setSelectedPerson(updatedPerson);
 
+        if (!model.getCurrentPredicate().test(updatedPerson)) {
+            model.showAllPersons();
+        }
+
         logger.info("Status updated to " + targetStatus.toString());
 
         return new CommandResult(MESSAGE_SUCCESS);

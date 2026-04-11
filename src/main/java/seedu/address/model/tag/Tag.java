@@ -33,7 +33,7 @@ public class Tag {
     public static final String WHITESPACE_NAME_CONSTRAINTS =
             "Tag names should contain at least one non-whitespace character.";
     public static final String ILLEGAL_NAME_CONSTRAINTS =
-            "Tag names must not equal any one of " + BANNED_NAMES.toString() + ".";
+            "Tag names must not equal, case-insensitive, any one of " + BANNED_NAMES.toString() + ".";
     public static final String WHITESPACE_VALUE_CONSTRAINTS =
             "Tag values should contain at least one non-whitespace character.";
 
@@ -154,7 +154,7 @@ public class Tag {
         if (!test.matches(NO_DELIMITER_REGEX)) {
             throw new IllegalValueException(NAME_NO_DELIMITER_CONSTRAINT);
         }
-        if (BANNED_NAMES.contains(test)) {
+        if (BANNED_NAMES.contains(test.toLowerCase())) {
             throw new IllegalValueException(ILLEGAL_NAME_CONSTRAINTS);
         }
         return true;

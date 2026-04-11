@@ -130,7 +130,7 @@ If you are using a PDF version of this document, be careful when copying and pas
 </box>
 
 <box type="warning" seamless>
-Users are advised against using <code>--</code> for input values. While the parser can occasionally pick up such usage and correctly report an error, this is not guaranteed all the time, which might result in unexpected execution results.
+Users are strongly advised against using <code>--</code> for input values. While the parser can occasionally pick up such usage and correctly report an error, this is not guaranteed all the time, which might result in unexpected execution results. Furthermore, different commands may have different levels of support for values including <code>--</code>, hence profiles containing <code>--</code> might be inaccessible to other commands.
 </box>
 
 
@@ -188,6 +188,7 @@ Format: `add NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`
 * Duplicate names are allowed, since it is likely one might encounter multiple people with the same (first) names. Hence, ScamBook supports having multiple people with the same name, and no duplicate checking is performed.
 * Phones and emails are optional, to cater for instances when the user does not have information about them at the point of adding the contact. No duplicate checking is performed on these fields as well, since these can be shared across users (e.g. home phone numbers, shared email addresses).
 * If multiple tag name-value pairs have the same tag name (see section on [Tag](#tagging-a-person-tag) below regarding tag name equality), the last value will be used.
+* There is no duplicate checking performed on people, hence there could be 2 identical profiles with identical attributes and tags, although such a scenario is quite unlikely (and would not break any features).
 
 <box type="tip" seamless>
 <b>Tip:</b> A person can have any number of tags (including 0).
@@ -327,7 +328,8 @@ Format: `sort [FIELD] [--asc|--desc] [--number|--alpha]`
 * `FIELD` can be `name`, `phone`, `email`, or a tag name (e.g., `income`). Defaults to `name` if omitted.
 * `--asc` sorts in ascending order (default), `--desc` sorts in descending order.
 * `--number` sorts numerically where possible (default), `--alpha` sorts alphabetically.
-* Entries with missing values for the specified field are placed at the end.
+* Entries with missing or invalid (e.g. non-numeric when sorting numerically) values for the specified field are placed at the end and sorting alphabetically in the user-specified direction.
+* It is the onus of the user to use the more suitable sorting style, the app will not check the consistency between the field and sorting style. For example, if `--number` is used for a non-numeric field, all profiles will be considered invalid and processed accordingly.
 
 Examples:
 * `sort` Sorts by name in ascending order.
@@ -442,6 +444,8 @@ Names should also contain at least one character
 #### Phone Constraints
 
 Phones should be a number between 3 and 20 digits in length. It should not contain spaces, or the `+` sign.
+If such details are desired, they can be added as tags instead.
+If multiple phone numbers are desired, such as home vs office numbers, they can be added as tags instead of using the `--phone` parameter multiple times.
 
 #### Email Constraints
 Emails should follow the format `local-part@domain` (e.g. `john.doe@example.com`), with the following constraints:
@@ -466,7 +470,7 @@ ScamBook accepts a broader set of [RFC 5322 standards-compliant email addresses]
 1. Tag names and values must be non-empty (i.e. it must not consist of only whitespace characters).
 2. Tag names and values must not contain colons (`:`), as they are used to separate names and values.
 3. Tag names and values must not exceed 60 characters in length (excluding leading and trailing whitespace). This is to ensure that the display of tags in the GUI remains neat and tidy.
-4. Tag names must not equal, case-sensitive, any of `name`, `email`, `phone` as these are reserved field names.
+4. Tag names (after stripping leading and trailing whitespace) must not equal, case-insensitive, any of `name`, `email`, `phone` as these are reserved field names for the `sort` command.
 5. Tag names and values can contain any other characters, if they satisfy the above two constraints.
 
 
@@ -534,15 +538,9 @@ repository](https://github.com/AY2526S2-CS2103T-T16-1/tp/issues).
 
 --------------------------------------------------------------------------------------------------------------------
 ## Future work
-1. The current tag name equality checking is done by checking string equality. In the future, we plan to add more equality checking semantics, to guard against accidental typos from users. In particular, we will incorporate case insensitivity and flexible whitespace (consecutive spaces will be treated as one). For example, `area code` and `Area code` will be treated as equal tag names, and hence disallowed in commands requiring unique tag names (with more friendly error messages suggesting a typo was made). On the other hand, `Area code` can be used to edit the tag of `area code` of an existing person, providing more convenience.
+1. Currently, all data has to be either manually added via the commands, or by editing the `json` data file. Future work will support more mechanisms for data importation, such as reading directly from a `.csv` or `.xlsx` file.
 
-2. The current format for command parameters uses double dashes (`--`), i.e. long options. This design choice was made because it ensures greater clarity in command formats, and also allows greater convenience in input values (single dashes can be used freely without having to escape it). Future work will support abbreviations, i.e. single dashes (`-`), just like command line applications, for greater convenience for experienced users.
-
-3. Currently, all data has to be either manually added via the commands, or by editing the `json` data file. Future work will support more mechanisms for data importation, such as reading directly from a `.csv` or `.xlsx` file.
-
-4. A scammer might have different personas when operating, such as pretending to be personnel from different banks. A possible future direction is to allow users to create multiple sets of ScamBooks, each with their own separate details, so every distinct persona can have its own list of contacts.
-
-5. Another significant area for future implementation is better integer parsing. Currently, tag values are parsed as is, so values such as `$100000` and `$200,000` are not recognised as numbers. This feature will allow more flexible interpretation of numbers, allowing the `sort` command to work on tags such as `savings: $1,000,000`.
+2. A scammer might have different personas when operating, such as pretending to be personnel from different banks. A possible future direction is to allow users to create multiple sets of ScamBooks, each with their own separate details, so every distinct persona can have its own list of contacts.
 
 <br>
 
