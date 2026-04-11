@@ -40,7 +40,7 @@ public class CommandRegistry {
 
     static {
         register(AddCommand.COMMAND_WORD,
-                "NAME [--phone PHONE] [--email EMAIL] [--tag NAME:VALUE]...",
+                "NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...",
                 AddCommand.EXAMPLE);
 
         register(EditCommand.COMMAND_WORD,
@@ -50,12 +50,12 @@ public class CommandRegistry {
         register(DeleteCommand.COMMAND_WORD, "INDEX", DeleteCommand.EXAMPLE);
 
         register(TagCommand.COMMAND_WORD,
-                "INDEX [--add NAME:VALUE]... [--edit NAME:VALUE]... [--delete TAGNAME]...",
+                "INDEX [--add TAGNAME:TAGVALUE]... [--edit TAGNAME:TAGVALUE]... [--delete TAGNAME]...",
                 TagCommand.EXAMPLE);
 
         register(FilterCommand.COMMAND_WORD,
                 "[--name NAME]... [--phone PHONE]... [--email EMAIL]... [--status STATUS]..."
-                        + "[--tag NAME[:VALUE]]...",
+                        + "[--tag TAGNAME[:TAGVALUE]]...",
                 FilterCommand.EXAMPLE);
 
         register(SortCommand.COMMAND_WORD,

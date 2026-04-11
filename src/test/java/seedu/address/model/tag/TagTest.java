@@ -93,6 +93,12 @@ public class TagTest {
         helperAssertThrows(() -> Tag.isValidTagName("name"), Tag.ILLEGAL_NAME_CONSTRAINTS);
         helperAssertThrows(() -> Tag.isValidTagName("phone"), Tag.ILLEGAL_NAME_CONSTRAINTS);
         helperAssertThrows(() -> Tag.isValidTagName("email"), Tag.ILLEGAL_NAME_CONSTRAINTS);
+        helperAssertThrows(() -> Tag.isValidTagName("Name"), Tag.ILLEGAL_NAME_CONSTRAINTS);
+        helperAssertThrows(() -> Tag.isValidTagName("Phone"), Tag.ILLEGAL_NAME_CONSTRAINTS);
+        helperAssertThrows(() -> Tag.isValidTagName("Email"), Tag.ILLEGAL_NAME_CONSTRAINTS);
+        helperAssertThrows(() -> Tag.isValidTagName("NAME"), Tag.ILLEGAL_NAME_CONSTRAINTS);
+        helperAssertThrows(() -> Tag.isValidTagName("PHONE"), Tag.ILLEGAL_NAME_CONSTRAINTS);
+        helperAssertThrows(() -> Tag.isValidTagName("EMAIL"), Tag.ILLEGAL_NAME_CONSTRAINTS);
 
         // EP: Valid, non-whitespace with no delimiter
         assertTrue(Tag.isValidTagName("job"));

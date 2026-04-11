@@ -73,7 +73,7 @@ We can use the `add` command to create a new contact. In the box at the bottom, 
 ![AddExample2.png](images/AddExample1.png)
 
 Upon typing `add`, the format for the rest of the command will appear.
-The command's format is `add NAME [--phone PHONE] [--email EMAIL] [--tag NAME:VALUE]...`.
+The command's format is `add NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`.
 
 Each command's format is given as a sequence of compulsory parameters, and optional parameters denoted in square brackets `[]`.
 In this command, `NAME` is a compulsory parameter, while phone, email and tags are optional parameters.
@@ -90,9 +90,7 @@ We can enter the command `add John Doe --phone 88463679 --tag job:teacher` and p
 
 We can see that we have created a new contact John Doe.
 
-To understand more about how to interpret the command formats, refer to [Command Format Information](#command-format-information).
-
-Refer to the [Command List](#commands) below for details of each command, or the [Commands Summary](#commands-summary) section for a quick summary of all commands and their formats.
+To understand more about how to interpret the command formats, refer to [Command Format Information](#command-format-information). Refer to the [Command List](#commands) below for details of each command, or the [Commands Summary](#commands-summary) section for a quick summary of all commands and their formats. The [Constraints on input values](#constraints-on-input-values) section gives more details on the constraints of input values for each parameter.
 
 <box type="tip" seamless>
 <b>Tip:</b> Use the UP and DOWN arrow keys to navigate past command history.
@@ -100,10 +98,10 @@ Refer to the [Command List](#commands) below for details of each command, or the
 
 --------------------------------------------------------------------------------------------------------------------
 
-<!-- Disclaimer for command format, applicable to all commands -->
-<box type="info" seamless>
 
 ## Command Format Information
+
+* All commands start with a single command word, which is case-sensitive and always in lowercase, followed by parameters if any.
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user. They can contain spaces and special characters (except `INDEX`, which expects a single positive integer). <br>
   e.g. in `add NAME`, `NAME` is a parameter which can be used as `add John Doe`.
@@ -118,9 +116,9 @@ Refer to the [Command List](#commands) below for details of each command, or the
 <br>
 
 * Parameters with `…`​ after them can be used multiple times (including zero times).<br>
-  e.g. `[--tag NAME:VALUE]…​` can be used as ` ` (i.e. 0 times), `--tag school:NUS`, `--tag school:NUS --tag salary:10000` etc.
-    * For each parameter that can be used multiple times, each command should contain up to 100 of such parameters.
-    * In the above example of `[--tag NAME:VALUE]…​`, the command should have up to 100 occurrences of `--tag`. Above this, the behaviour is undefined.
+  e.g. `[--tag TAGNAME:TAGVALUE]…​` can be used as ` ` (i.e. 0 times), `--tag school:NUS`, `--tag school:NUS --tag salary:10000` etc.
+    * For each parameter that can be used multiple times, each command should contain up to 100 of such parameters. Above this, the command will be rejected.
+    * In the above example of `[--tag TAGNAME:TAGVALUE]…​`, the command should have up to 100 occurrences of `--tag`.
 
 * Mandatory parameters must come before optional parameters.<br>
   e.g. if the command specifies `NAME [--phone PHONE]`, `--phone 88091246 John` is not acceptable.
@@ -129,9 +127,15 @@ Refer to the [Command List](#commands) below for details of each command, or the
   e.g. if the command specifies `[--phone PHONE] [--email EMAIL]`, `--email john@example.com --phone 91842739` is also acceptable.
 
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-
+<box type="warning" seamless>
+If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
+
+<box type="warning" seamless>
+Users are strongly advised against using <code>--</code> for input values. While the parser can occasionally pick up such usage and correctly report an error, this is not guaranteed all the time, which might result in unexpected execution results. Furthermore, different commands may have different levels of support for values including <code>--</code>, hence profiles containing <code>--</code> might be inaccessible to other commands.
+</box>
+
+
 
 <!--
 Command User guide format:
@@ -184,7 +188,9 @@ Adds a person to the ScamBook.
 Format: `add NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`
 
 * Duplicate names are allowed, since it is likely one might encounter multiple people with the same (first) names. Hence, ScamBook supports having multiple people with the same name, and no duplicate checking is performed.
-* If multiple tag name-value pairs have the same tag name (see section on [Tag](#tagging-a-person--tag) below regarding tag name equality), the last value will be used.
+* Phones and emails are optional, to cater for instances when the user does not have information about them at the point of adding the contact. No duplicate checking is performed on these fields as well, since these can be shared across users (e.g. home phone numbers, shared email addresses).
+* If multiple tag name-value pairs have the same tag name (see section on [Tag](#tagging-a-person-tag) below regarding tag name equality), the last value will be used.
+* There is no duplicate checking performed on people, hence there could be 2 identical profiles with identical attributes and tags, although such a scenario is quite unlikely (and would not break any features).
 
 <box type="tip" seamless>
 <b>Tip:</b> A person can have any number of tags (including 0).
@@ -199,7 +205,7 @@ Examples:
 
 ### Editing a person : `edit`
 
-Edits an existing person's name, phone number or email. For editing tags, see the [Tag Command](#tagging-a-person--tag).
+Edits an existing person's name, phone number or email. For editing tags, see the [Tag Command](#tagging-a-person-tag).
 
 Format: `edit INDEX [--name NAME] [--phone PHONE] [--email EMAIL]`
 
@@ -232,27 +238,26 @@ Examples:
 
 ### Tagging a person : `tag`
 
-A tag is a name-value pair that allows the user to record any arbitrary information so desired about a profile. This is achieved by this command, which modifies (add, edit or delete) the tags of an existing person in the ScamBook. In the image below of an example profile in the app, each blue box represents a tag-value pair capturing some useful information about the person.
+A tag is a name-value pair that allows the user to record any arbitrary information so desired about a profile. This is achieved by this command, which modifies (add, edit or delete) the tags of an existing person in the ScamBook. Two tag names are considered equal if they are exactly equal character for character after removing leading and trailing whitespace.
+
+
+In the image below of an example profile in the app, each blue box represents a tag-value pair capturing some useful information about the person.
 
 
 <center><img src="images/example_profile_with_tags.png" alt="Example profile with tags" width="400"/></center>
 
 <br>
 
-Format: `tag INDEX [--add NAME:VALUE]... [--edit NAME:VALUE]... [--delete TAGNAME]...​`
-
-<box type="warning" seamless>
-<b>Caution:</b> <code>NAME</code>, <code>VALUE</code>, <code>TAGNAME</code> must NOT contain colons (<code>:</code>). Otherwise, an error will be displayed. Users are advised not to use <code>--</code> as part of the tag name or tag value, as this may lead to undefined behaviour.
-</box>
+Format: `tag INDEX [--add TAGNAME:TAGVALUE]... [--edit TAGNAME:TAGVALUE]... [--delete TAGNAME]...​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided, if not, nothing will happen upon execution (and success message will be displayed).
-* Optional fields beginning with `--add` represent tags to be added to the person. The tag name must NOT already exist.
+* At least one of the optional fields must be provided, if not, the success message will be displayed with no visible changes. There will also be a disk write to save the (unchanged) ScamBook data. Refer to the [Saving the data](#saving-the-data) section for more details.
+* Optional fields beginning with `--add` represent tags to be added to the person. The tag name must not already exist.
 * Optional fields beginning with `--edit` represent tags to be modified of the person. The tag with the corresponding name must already exist.
 * Optional fields beginning with `--delete` represent tags to be deleted. The tag with the corresponding name must already exist.
 
 <box type="warning" seamless>
-If the same tag name appears across multiple optional fields, behaviour is undefined. 2 tag names are considered equivalent if they are exactly equal character for character after removing leading and trailing whitespace.
+Users are strongly advised against using the same tag name across multiple optional fields, as behaviour could be unexpected. In particular, all <code>--add</code> tags are added first, then all <code>--edit</code> tags are edited, then all <code>--delete</code> are deleted.
 </box>
 
 Examples:
@@ -277,7 +282,7 @@ Format: `filter [--name NAME]... [--phone PHONE]... [--email EMAIL]... [--status
   e.g. `--name John --name Jane` matches persons whose name contains `John` or `Jane`.
 - `NAME`, `EMAIL`, and `PHONE` conditions require case-insensitive partial match.
 - `STATUS` must be one of `NONE`, `TARGET`, `SCAM`, or `IGNORE` (case-insensitive).
-- `--tag TAGNAME` checks whether a person has a tag with that name.
+- `--tag TAGNAME` checks whether a person has a tag with that name. `TAGNAME` must be a valid tag name, according to [this](#tag-constraints).
 - `--tag TAGNAME:TAGVALUE` checks whether a person has a tag with that name whose value contains `TAGVALUE`.
 - `TAGNAME` requires the exact tag name (case-insensitive), while `TAGVALUE` only requires partial match (case-insensitive).
 - With repeated `--tag` filters with the same tag name, profiles match any of the specified values.
@@ -309,8 +314,8 @@ The filter command affects the indices of the contacts. When using commands that
 </box>
 
 <box type="tip" seamless>
-When after running another command (e.g. <code>edit</code>),
-if the modified person(s) still fulfill the most recent filter applied, the displayed list will remain as the filtered list. Otherwise, the displayed list will revert to show all persons.
+After running another command (e.g. <code>add</code>),
+if the new/edited person still fulfills the most recent filter applied, the displayed list will remain as the filtered list (with the added person, if any). Otherwise, the displayed list will revert to show all persons.
 </box>
 
 
@@ -325,19 +330,24 @@ Format: `sort [FIELD] [--asc|--desc] [--number|--alpha]`
 * `FIELD` can be `name`, `phone`, `email`, or a tag name (e.g., `income`). Defaults to `name` if omitted.
 * `--asc` sorts in ascending order (default), `--desc` sorts in descending order.
 * `--number` sorts numerically where possible (default), `--alpha` sorts alphabetically.
-* Entries with missing values for the specified field are placed at the end.
+* Entries with missing or invalid (e.g. non-numeric when sorting numerically) values for the specified field are placed at the end and sorting alphabetically in the user-specified direction.
+* It is the onus of the user to use the more suitable sorting style, the app will not check the consistency between the field and sorting style. For example, if `--number` is used for a non-numeric field, all profiles will be considered invalid and processed accordingly.
 
 Examples:
 * `sort` Sorts by name in ascending order.
 * `sort phone --desc --number` Sorts by phone number in descending numeric order.
 * `sort income --alpha` Sorts by the `income` tag alphabetically.
 
+<box type="tip" seamless>
+The sorting persists even if multiple commands are run afterwards. For example, if a new person is added, he/she will be inserted into the correct position according to the current sorting order, which might not be at the end. Similarly, editing a person's information or tags may also change his/her positon in the list.
+</box>
+
 
 <br>
 
 ### Marking person status: `clearstatus`, `target`, `scam`, or `ignore`
 
-Sets the status of a specific person. We currently support 4 common statuses, each represented by its corresponding command name. Referring the image below (same image as in the [Overview](#overview) section, reproduced here for convenience), the emoji of each profile represents its status, as set by the four commands, in order.
+Sets the status of a specific person. We currently support 4 common statuses, each represented by its corresponding command name. Referring the image below (same image as in the [Overview](#overview) section, reproduced here for convenience), the emoji of each profile represents its status, as set by each of the four commands, in order.
 1. No status, via `clearstatus`.
 2. A potential target, via `target`.
 3. Already scammed, via `scam`.
@@ -345,7 +355,7 @@ Sets the status of a specific person. We currently support 4 common statuses, ea
 
 ![Example screenshot of status commands](images/status_command.png)
 
-In the above image, the people have the status of no status, `target`, `scam`, and `ignore`  respectively.
+Format: `status_command INDEX`
 
 * `status_command` should be replaced by either one of `clearstatus`, `target`, `scam`, or `ignore`.
 * Sets the status of the person at the specified `INDEX`.
@@ -363,7 +373,7 @@ Examples:
 
 ### Listing all persons : `list`
 
-Shows a list of ALL persons in the ScamBook. This command can be used after `sort` or `filter` to revert ScamBook to its original state.
+Shows a list of ALL persons in the ScamBook, in their original creation order. This command can be used after `sort` or `filter` to revert ScamBook to its original state.
 
 Format: `list`
 
@@ -423,6 +433,10 @@ Format: `exit`
 
 ### Constraints on input values
 
+
+#### Index Constraints
+All `INDEX` parameters refer to the displayed index as shown in the current displayed list.
+
 #### Name Constraints
 
 Names can contain any alphanumeric characters, spaces, and the following special characters <code>,.()\`'/\-</code>.
@@ -432,17 +446,19 @@ Names should also contain at least one character
 #### Phone Constraints
 
 Phones should be a number between 3 and 20 digits in length. It should not contain spaces, or the `+` sign.
+If such details are desired, they can be added as tags instead.
+If multiple phone numbers are desired, such as home vs office numbers, they can be added as tags instead of using the `--phone` parameter multiple times.
 
 #### Email Constraints
 Emails should follow the format `local-part@domain` (e.g. `john.doe@example.com`), with the following constraints:
 
 1. Email contains exactly one `@`.
-1. `local-part` and `domain` should each contain at least one character.
-1. `local-part` should contain alphanumeric characters and/or the special characters <code>!#$%&'*+/=?^_`{|}~.-</code>.
-1. `local-part` should not start or end with a dot (`.`) and should not have consecutive dots.
-1. `local-part` should not contain spaces.
-1. `domain` should contain alphanumeric characters, dots (`.`) and/or hyphens (`-`).
-1. `domain` should be a valid target hostname such as `gmail.com`, `example.com`.
+2. `local-part` and `domain` should each contain at least one character.
+3. `local-part` should contain alphanumeric characters and/or the special characters <code>!#$%&'*+/=?^_`{|}~.-</code>.
+4. `local-part` should not start or end with a dot (`.`) and should not have consecutive dots.
+5. `local-part` should not contain spaces.
+6. `domain` should contain alphanumeric characters, dots (`.`) and/or hyphens (`-`).
+7. `domain` should be a valid target hostname such as `gmail.com`, `example.com`.
 
 ScamBook accepts a broader set of [RFC 5322 standards-compliant email addresses](https://datatracker.ietf.org/doc/html/rfc5322#section-3.4.1).
 
@@ -451,13 +467,22 @@ ScamBook accepts a broader set of [RFC 5322 standards-compliant email addresses]
 </box>
 
 
+#### Tag Constraints
+
+1. Tag names and values must be non-empty (i.e. it must not consist of only whitespace characters).
+2. Tag names and values must not contain colons (`:`), as they are used to separate names and values.
+3. Tag names and values must not exceed 60 characters in length (excluding leading and trailing whitespace). This is to ensure that the display of tags in the GUI remains neat and tidy.
+4. Tag names (after stripping leading and trailing whitespace) must not equal, case-insensitive, any of `name`, `email`, `phone` as these are reserved field names for the `sort` command.
+5. Tag names and values can contain any other characters, if they satisfy the above two constraints.
+
+
 <br>
 
 ---------------------------------------------------
 
 ### Saving the data
 
-ScamBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+ScamBook data are saved in the hard disk automatically after the successful execution of any command. There is no need to save manually.
 
 
 <br>
@@ -515,15 +540,9 @@ repository](https://github.com/AY2526S2-CS2103T-T16-1/tp/issues).
 
 --------------------------------------------------------------------------------------------------------------------
 ## Future work
-1. The current tag name equality checking is done by checking string equality. In the future, we plan to add more equality checking semantics, to guard against accidental typos from users. In particular, we will incorporate case insensitivity and flexible whitespace (consecutive spaces will be treated as one). For example, `area code` and `Area code` will be treated as equal tag names, and hence disallowed in commands requiring unique tag names (with more friendly error messages suggesting a typo was made). On the other hand, `Area code` can be used to edit the tag of `area code` of an existing person, providing more convenience.
+1. Currently, all data has to be either manually added via the commands, or by editing the `json` data file. Future work will support more mechanisms for data importation, such as reading directly from a `.csv` or `.xlsx` file.
 
-2. The current format for command parameters uses double dashes (`--`), i.e. long options. This design choice was made because it ensures greater clarity in command formats, and also allows greater convenience in input values (single dashes can be used freely without having to escape it). Future work will support abbreviations, i.e. single dashes (`-`), just like command line applications, for greater convenience for experienced users.
-
-3. Currently, all data has to be either manually added via the commands, or by editing the `json` data file. Future work will support more mechanisms for data importation, such as reading directly from a `.csv` or `.xlsx` file.
-
-4. A scammer might have different personas when operating, such as pretending to be personnel from different banks. A possible future direction is to allow users to create multiple sets of ScamBooks, each with their own separate details, so every distinct persona can have its own list of contacts.
-
-5. Another significant area for future implementation is better integer parsing. Currently, tag values are parsed as is, so values such as `$100000` and `$200,000` are not recognised as numbers. This feature will allow more flexible interpretation of numbers, allowing the `sort` command to work on tags such as `savings: $1,000,000`.
+2. A scammer might have different personas when operating, such as pretending to be personnel from different banks. A possible future direction is to allow users to create multiple sets of ScamBooks, each with their own separate details, so every distinct persona can have its own list of contacts.
 
 <br>
 
@@ -533,9 +552,7 @@ repository](https://github.com/AY2526S2-CS2103T-T16-1/tp/issues).
 
 1. When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 
-2. If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
-3. On Windows OS, `nuke` may fail to delete the running application JAR due to file locking by the OS.
+2. On Windows OS, `nuke` may fail to delete the running application JAR due to file locking by the OS.
 
 <br>
 
@@ -545,20 +562,20 @@ repository](https://github.com/AY2526S2-CS2103T-T16-1/tp/issues).
 <!-- A summary of all commands. Should be of same/similar format as help
 command output -->
 
-| Command           | Functionality and Parameters                                                                                                                                                                 |
-|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`add`**         | Adds a new person<br>`NAME [--phone PHONE] [--email EMAIL] [--tag NAME:VALUE]...`<br> e.g., `add John Doe --phone 98765432 --email johndoe@example.com --tag school:NUS`                     |
-| **`edit`**        | Updates the name/phone/email of an existing person<br>`INDEX [--name NAME] [--phone PHONE] [--email EMAIL]`<br> e.g., `edit 1 --name Jane Doe --phone 91234567 --email newemail@example.com` |
-| **`delete`**      | Deletes an existing person<br>`INDEX`<br> e.g., `delete 5`                                                                                                                                   |
-| **`tag`**         | Updates tags of an existing person<br>`INDEX [--add NAME:VALUE]... [--edit NAME:VALUE]... [--delete TAGNAME]...`<br> e.g., `tag 1 --add school:NUS --edit salary:10000 --delete age`         |
-| **`filter`**      | Filters the master list<br>`[--name NAME]... [--phone PHONE]... [--email EMAIL]... [--status STATUS]... [--tag TAGNAME[:TAGVALUE]]...`<br> e.g., `filter --name John --phone 98765432`       |
-| **`sort`**        | Sorts the currently displayed list<br>`[FIELD] [--asc\|--desc] [--number\|--alpha]`<br> e.g., `sort phone --desc --number`                                                                   |
-| **`clearstatus`** | Clears the status of an existing person<br>`INDEX`<br> e.g., `clearstatus 1`                                                                                                                 |
-| **`target`**      | Marks an existing person as a target<br>`INDEX`<br> e.g., `target 2`                                                                                                                         |
-| **`scam`**        | Marks an existing person as scammed<br>`INDEX`<br> e.g., `scam 3`                                                                                                                            |
-| **`ignore`**      | Marks an existing person as ignored<br>`INDEX`<br> e.g., `ignore 4`                                                                                                                          |
-| **`list`**        | Lists all contacts                                                                                                                                                                           |
-| **`clear`**       | Deletes all contacts                                                                                                                                                                         |
-| **`nuke`**        | Deletes `addressbook.json`, removes `data/` if empty, attempts to delete the running app JAR, and exits                                                                                    |
-| **`help`**        | Shows the help message                                                                                                                                                                       |
-| **`exit`**        | Exits the application                                                                                                                                                                        |
+| Command           | Functionality and Parameters                                                                                                                                                                     |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`add`**         | Adds a new person<br>`NAME [--phone PHONE] [--email EMAIL] [--tag TAGNAME:TAGVALUE]...`<br> e.g., `add John Doe --phone 98765432 --email johndoe@example.com --tag school:NUS`                   |
+| **`edit`**        | Updates the name/phone/email of an existing person<br>`INDEX [--name NAME] [--phone PHONE] [--email EMAIL]`<br> e.g., `edit 1 --name Jane Doe --phone 91234567 --email newemail@example.com`     |
+| **`delete`**      | Deletes an existing person<br>`INDEX`<br> e.g., `delete 5`                                                                                                                                       |
+| **`tag`**         | Updates tags of an existing person<br>`INDEX [--add TAGNAME:TAGVALUE]... [--edit TAGNAME:TAGVALUE]... [--delete TAGNAME]...`<br> e.g., `tag 1 --add school:NUS --edit salary:10000 --delete age` |
+| **`filter`**      | Filters the master list<br>`[--name NAME]... [--phone PHONE]... [--email EMAIL]... [--status STATUS]... [--tag TAGNAME[:TAGVALUE]]...`<br> e.g., `filter --name John --phone 98765432`           |
+| **`sort`**        | Sorts the currently displayed list<br>`[FIELD] [--asc\|--desc] [--number\|--alpha]`<br> e.g., `sort phone --desc --number`                                                                       |
+| **`clearstatus`** | Clears the status of an existing person<br>`INDEX`<br> e.g., `clearstatus 1`                                                                                                                     |
+| **`target`**      | Marks an existing person as a target<br>`INDEX`<br> e.g., `target 2`                                                                                                                             |
+| **`scam`**        | Marks an existing person as scammed<br>`INDEX`<br> e.g., `scam 3`                                                                                                                                |
+| **`ignore`**      | Marks an existing person as ignored<br>`INDEX`<br> e.g., `ignore 4`                                                                                                                              |
+| **`list`**        | Lists all contacts                                                                                                                                                                               |
+| **`clear`**       | Deletes all contacts                                                                                                                                                                             |
+| **`nuke`**        | Deletes `addressbook.json`, removes `data/` if empty, attempts to delete the running app JAR, and exits                                                                                          |
+| **`help`**        | Shows the help message                                                                                                                                                                           |
+| **`exit`**        | Exits the application                                                                                                                                                                            |
