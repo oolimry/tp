@@ -143,4 +143,20 @@ public class SortCommandTest {
     public void constructor_nullSpec_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new SortCommand(null));
     }
+
+    @Test
+    public void execute_sortUnknownTag_throwsCommandException() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        String unknownTag = "nonExistentTag";
+        SortCommand.SortSpec spec = new SortCommand.SortSpec(
+                SortCommand.SortTargetType.TAG,
+                unknownTag,
+                SortCommand.SortOrder.ASC,
+                SortCommand.SortMode.ALPHA
+        );
+        SortCommand command = new SortCommand(spec);
+
+        String expectedMessage = String.format(SortCommand.MESSAGE_UNKNOWN_TAG, unknownTag);
+        assertThrows(CommandException.class, expectedMessage, () -> command.execute(model));
+    }
 }

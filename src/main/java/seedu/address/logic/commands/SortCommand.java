@@ -90,6 +90,7 @@ public class SortCommand extends Command {
     }
 
     public static final String MESSAGE_SUCCESS = "Sorted %1$d person(s) by %2$s.";
+    public static final String MESSAGE_UNKNOWN_TAG = "The tag '%1$s' does not exist in any contact.";
 
     private final SortSpec spec;
 
@@ -106,6 +107,11 @@ public class SortCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (spec.targetType == SortTargetType.TAG) {
+            requireTagExists(model, spec.tagName);
+        }
+
         Comparator<Person> comparator = buildComparator(spec);
 
         model.updateSortedPersonList(comparator);
@@ -124,6 +130,15 @@ public class SortCommand extends Command {
                     MESSAGE_SUCCESS,
                     model.getFilteredPersonList().size(),
                     field));
+    }
+
+    private void requireTagExists(Model model, String tagName) throws CommandException {
+        boolean tagExists = model.getAddressBook().getPersonList().stream()
+                .anyMatch(person -> person.getTags().filterTagCaseInsensitive(tagName).isPresent());
+
+        if (!tagExists) {
+            throw new CommandException(String.format(MESSAGE_UNKNOWN_TAG, tagName));
+        }
     }
 
     @Override
