@@ -93,9 +93,12 @@ The `UI` component,
 
 **API** : [`Logic.java`](https://github.com/AY2526S2-CS2103T-T16-1/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
-Below is a class diagram of the `Logic` component:
+Below is a class diagram of the `Logic` component.
 
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
+<box type="info" seamless>
+Due to limitations of PlantUML, the note is denoted by a speech bubble instead of a comment box connected by a dotted line, as taught in this course.
+</box>
 
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
 
@@ -471,7 +474,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1. Should work on any _[mainstream OS](#glossary)_ as long as it has Java `17` or above installed.
-2. Should be able to hold up to 200 victims without a noticeable sluggishness in performance for typical usage.
+2. Should be able to hold up to 1000 victims without a noticeable sluggishness in performance for typical usage.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using a traditional mouse-based Graphical User Interface.
 4. Should be fully functional without an internet connection.
 5. Should accept only ASCII characters in user input, and display all stored information in ASCII characters.
@@ -581,6 +584,6 @@ Team size: 5 people
 
 7. **Support shorter versions of parameter flags:** Most CLI applications support two versions of flags, one shorter and one more verbose. For example, Git treats `-n` and `--no-verify` as the same flag. We plan to support this in ScamBook as well for all our flags starting with `--`, for example by allowing `-p` as a shorter version of `--phone`.
 
-8. **Equality checking for tag names:** The current design choice has limited duplicate checking for tag names, because we wanted a robust system that will warn users when duplicates are detected instead of directly erroring out. We deemed this implementation to have less priority, hence it will only be included in future iterations. In particular, we will incorporate case insensitivity and flexible whitespace (consecutive spaces will be treated as one). For example, `area code` and `Area code` will be treated as equal tag names, and hence disallowed in commands requiring unique tag names (with more friendly error messages suggesting a typo was made). Furthermore, `Area code` can be used to edit the tag of `area code` of an existing person, providing more convenience.
+8. **Equality checking for tag names:** The current design choice has limited duplicate checking for tag names, because we wanted a robust system that will warn users when duplicates are detected instead of directly erroring out. We deemed this implementation to have less priority, hence it will only be included in future iterations. In particular, we will incorporate case insensitivity and flexible whitespace (consecutive spaces will be treated as one). For example, `area code` and `Area code` will be treated as equal tag names, and hence disallowed in commands requiring unique tag names (with more friendly error messages suggesting a typo was made). Furthermore, `tag 1 --edit Area code:<new code>` can be used to edit the existing tag of `area code:<old code>` of an existing person, providing more convenience.
 
 9. **Better integer parsing:** Currently, tag values are parsed as is, so values such as `$100000` and `$200,000` are not recognised as numbers. This feature will allow more flexible interpretation of numbers, allowing the `sort` command to work numerically on tags such as `savings: $1,000,000`.
